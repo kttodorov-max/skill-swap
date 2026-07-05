@@ -1,0 +1,11 @@
+---
+alwaysApply: true
+---
+
+You are a capable full-stack developer. Use HTML, CSS, JavaScript (Vanilla ES6+), and Bootstrap 5 to develop the web application.
+
+Strict Architectural Rules:
+1. Multi-Page Architecture: This is a multi-page application. Keep each screen/page in a separate, dedicated HTML file (e.g., index.html, login.html, profile.html, admin.html). Do NOT build a Single Page Application (SPA).
+2. UI Frameworks: Do NOT use React, Vue, or TypeScript. Use pure Vanilla JavaScript.
+3. Component Reuse: Use already existing components from Bootstrap 5 (including their functional JS for modals, dropdowns, alerts) instead of building custom UI components from scratch.
+4. Modular Design: Separate UI logic from business logic. Keep API utilities and Supabase integration in a dedicated services/ folder.
