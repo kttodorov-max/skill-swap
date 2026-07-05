@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkillSwap – Обмен на умения</title>
+  </head>
+  <body>
+    <div id="navbar"></div>
+    <main>
+      <section class="hero-section py-5">
+        <div class="container text-center">
+          <h1 class="display-5 fw-bold mb-3">
+            <i class="bi bi-lightning-charge-fill text-primary"></i>
+            SkillSwap
+          </h1>
+          <p class="lead text-muted mb-4">
+            Платформа за обмен на умения – преподавай това, което знаеш, и научи нещо ново.
+          </p>
+          <div class="d-flex flex-wrap gap-2 justify-content-center">
+            <a href="register.html" class="btn btn-primary btn-lg">
+              <i class="bi bi-person-plus me-1"></i> Започни сега
+            </a>
+            <a href="skill-form.html" class="btn btn-outline-primary btn-lg">
+              <i class="bi bi-plus-circle me-1"></i> Добави умение
+            </a>
+          </div>
+        </div>
+      </section>
+      <section class="container py-5">
+        <h2 class="h4 mb-4"><i class="bi bi-grid me-2"></i>Последни умения</h2>
+        <div id="skills-list" class="row g-4">
+          <div class="col-12">
+            <div class="alert alert-info mb-0">
+              <i class="bi bi-info-circle me-1"></i>
+              Уменията ще се зареждат от Supabase в следваща фаза.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="bg-light border-top py-4 mt-auto">
+      <div class="container text-center text-muted small">
+        &copy; 2026 SkillSwap – SoftUni Capstone Project
+      </div>
+    </footer>
+    <script type="module" src="/js/pages/home.js"></script>
+  </body>
+</html>
