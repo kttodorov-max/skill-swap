@@ -16,20 +16,26 @@
               <h1 class="h3 mb-4 text-center">
                 <i class="bi bi-person-plus text-primary"></i> Регистрация
               </h1>
-              <form id="register-form">
+              <div id="form-alert"></div>
+              <form id="register-form" novalidate>
                 <div class="mb-3">
                   <label for="username" class="form-label">Потребителско име</label>
-                  <input type="text" class="form-control" id="username" required />
+                  <input type="text" class="form-control" id="username" autocomplete="username" minlength="3" required />
+                  <div class="invalid-feedback">Минимум 3 символа – букви, цифри и _.</div>
                 </div>
                 <div class="mb-3">
                   <label for="email" class="form-label">Имейл</label>
-                  <input type="email" class="form-control" id="email" required />
+                  <input type="email" class="form-control" id="email" autocomplete="email" required />
+                  <div class="invalid-feedback">Въведете валиден имейл.</div>
                 </div>
                 <div class="mb-3">
                   <label for="password" class="form-label">Парола</label>
-                  <input type="password" class="form-control" id="password" minlength="6" required />
+                  <input type="password" class="form-control" id="password" autocomplete="new-password" minlength="6" required />
+                  <div class="invalid-feedback">Паролата трябва да е поне 6 символа.</div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Регистрирай се</button>
+                <button type="submit" class="btn btn-primary w-100" id="register-btn">
+                  <i class="bi bi-person-plus me-1"></i>Регистрирай се
+                </button>
               </form>
               <p class="text-center mt-3 mb-0 small text-muted">
                 Вече имаш акаунт? <a href="login.html">Влез</a>
