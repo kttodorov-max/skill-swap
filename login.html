@@ -16,16 +16,21 @@
               <h1 class="h3 mb-4 text-center">
                 <i class="bi bi-box-arrow-in-right text-primary"></i> Вход
               </h1>
-              <form id="login-form">
+              <div id="form-alert"></div>
+              <form id="login-form" novalidate>
                 <div class="mb-3">
                   <label for="email" class="form-label">Имейл</label>
-                  <input type="email" class="form-control" id="email" required />
+                  <input type="email" class="form-control" id="email" autocomplete="email" required />
+                  <div class="invalid-feedback">Въведете валиден имейл.</div>
                 </div>
                 <div class="mb-3">
                   <label for="password" class="form-label">Парола</label>
-                  <input type="password" class="form-control" id="password" required />
+                  <input type="password" class="form-control" id="password" autocomplete="current-password" minlength="6" required />
+                  <div class="invalid-feedback">Паролата трябва да е поне 6 символа.</div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Влез</button>
+                <button type="submit" class="btn btn-primary w-100" id="login-btn">
+                  <i class="bi bi-box-arrow-in-right me-1"></i>Влез
+                </button>
               </form>
               <p class="text-center mt-3 mb-0 small text-muted">
                 Нямаш акаунт? <a href="register.html">Регистрирай се</a>
