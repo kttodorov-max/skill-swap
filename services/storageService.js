@@ -1,0 +1,69 @@
+import { supabase } from './supabaseClient.js'
+
+const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+const MAX_FILE_SIZE = 5 * 1024 * 1024
+
+function validateImageFile(file) {
+  if (!file) throw new Error('Не е избран файл.')
+  if (!IMAGE_TYPES.includes(file.type)) {
+    throw new Error('Позволени са само JPEG, PNG, WebP и GIF изображения.')
+  }
+  if (file.size > MAX_FILE_SIZE) {
+    throw new Error('Файлът трябва да е до 5 MB.')
+  }
+}
+
+function getFileExtension(file) {
+  const fromName = file.name.split('.').pop()?.toLowerCase()
+  if (fromName && fromName.length <= 5) return fromName
+
+  const mimeMap = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/webp': 'webp',
+    'image/gif': 'gif',
+  }
+
+  return mimeMap[file.type] || 'jpg'
+}
+
+export function getPublicUrl(bucket, path) {
+  const { data } = supabase.storage.from(bucket).getPublicUrl(path)
+  return data.publicUrl
+}
+
+export async function uploadAvatar(userId, file) {
+  validateImageFile(file)
+
+  const extension = getFileExtension(file)
+  const path = `${userId}/avatar.${extension}`
+
+  const { error } = await supabase.storage
+    .from('avatars')
+    .upload(path, file, { upsert: true, contentType: file.type })
+
+  if (error) throw error
+
+  return getPublicUrl('avatars', path)
+}
+
+export async function uploadSkillImage(userId, file, skillId = null) {
+  validateImageFile(file)
+
+  const extension = getFileExtension(file)
+  const fileName = skillId ? `${skillId}.${extension}` : `${Date.now()}.${extension}`
+  const path = `${userId}/${fileName}`
+
+  const { error } = await supabase.storage
+    .from('skill-images')
+    .upload(path, file, { upsert: true, contentType: file.type })
+
+  if (error) throw error
+
+  return getPublicUrl('skill-images', path)
+}
+
+export async function deleteFile(bucket, path) {
+  const { error } = await supabase.storage.from(bucket).remove([path])
+  if (error) throw error
+}
