@@ -8,11 +8,66 @@
   </head>
   <body>
     <div id="navbar"></div>
-    <main class="container py-5 page-placeholder">
+    <main class="container py-5">
       <h1 class="h3 mb-4"><i class="bi bi-person text-primary"></i> Моят профил</h1>
-      <div class="alert alert-secondary">
-        Страницата ще бъде имплементирана в следваща фаза.
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="card shadow-sm">
+            <div class="card-body text-center">
+              <div id="avatar-preview" class="mb-3">
+                <i class="bi bi-person-circle display-1 text-muted"></i>
+              </div>
+              <label for="avatar-input" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-camera me-1"></i>Смени снимка
+              </label>
+              <input type="file" id="avatar-input" class="d-none" accept="image/jpeg,image/png,image/webp,image/gif" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <form id="profile-form">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="username" class="form-label">Потребителско име</label>
+                    <input type="text" class="form-control" id="username" disabled />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="full-name" class="form-label">Пълно име</label>
+                    <input type="text" class="form-control" id="full-name" />
+                  </div>
+                  <div class="col-12">
+                    <label for="location" class="form-label">Локация</label>
+                    <input type="text" class="form-control" id="location" placeholder="Напр. София" />
+                  </div>
+                  <div class="col-12">
+                    <label for="bio" class="form-label">Биография</label>
+                    <textarea class="form-control" id="bio" rows="4" placeholder="Разкажи накратко за себе си..."></textarea>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary" id="profile-save-btn">
+                      <i class="bi bi-check-lg me-1"></i>Запази профила
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <section class="mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="h4 mb-0"><i class="bi bi-collection me-2"></i>Моите умения</h2>
+          <a href="skill-form.html" class="btn btn-sm btn-primary">
+            <i class="bi bi-plus-circle me-1"></i>Добави
+          </a>
+        </div>
+        <div id="my-skills-list" class="row g-4"></div>
+      </section>
     </main>
     <script type="module" src="/js/pages/profile.js"></script>
   </body>
