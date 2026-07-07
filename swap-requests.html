@@ -8,10 +8,29 @@
   </head>
   <body>
     <div id="navbar"></div>
-    <main class="container py-5 page-placeholder">
+    <main class="container py-5">
       <h1 class="h3 mb-4"><i class="bi bi-arrow-left-right text-primary"></i> Заявки за обмен</h1>
-      <div class="alert alert-secondary">
-        Заявките за обмен ще бъдат имлементирани в следваща фаза.
+
+      <ul class="nav nav-tabs mb-4" id="swap-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="incoming-tab" data-bs-toggle="tab" data-bs-target="#incoming" type="button">
+            <i class="bi bi-inbox me-1"></i>Получени
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="outgoing-tab" data-bs-toggle="tab" data-bs-target="#outgoing" type="button">
+            <i class="bi bi-send me-1"></i>Изпратени
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="incoming" role="tabpanel">
+          <div id="incoming-list"></div>
+        </div>
+        <div class="tab-pane fade" id="outgoing" role="tabpanel">
+          <div id="outgoing-list"></div>
+        </div>
       </div>
     </main>
     <script type="module" src="/js/pages/swap-requests.js"></script>
