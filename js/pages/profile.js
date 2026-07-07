@@ -1,4 +1,4 @@
 import '../app.js'
-import { renderNavbar } from '../components/navbar.js'
+import { initNavbar } from '../components/navbar.js'
 
-document.getElementById('navbar').innerHTML = renderNavbar('profile')
+await initNavbar('profile')

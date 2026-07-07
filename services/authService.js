@@ -33,6 +33,39 @@ export async function isAdmin(userId) {
   return role === 'admin'
 }
 
+export async function getAuthContext() {
+  const session = await getSession()
+
+  if (!session?.user) {
+    return {
+      session: null,
+      user: null,
+      profile: null,
+      role: null,
+      isAuthenticated: false,
+      isAdmin: false,
+    }
+  }
+
+  const [profile, role] = await Promise.all([
+    getProfile(session.user.id),
+    getUserRole(session.user.id),
+  ])
+
+  return {
+    session,
+    user: session.user,
+    profile,
+    role,
+    isAuthenticated: true,
+    isAdmin: role === 'admin',
+  }
+}
+
+export async function register({ email, password, username, fullName = '' }) {
+  return signUp({ email, password, username, fullName })
+}
+
 export async function signUp({ email, password, username, fullName = '' }) {
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -49,6 +82,10 @@ export async function signUp({ email, password, username, fullName = '' }) {
   return data
 }
 
+export async function login({ email, password }) {
+  return signIn({ email, password })
+}
+
 export async function signIn({ email, password }) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
@@ -57,6 +94,10 @@ export async function signIn({ email, password }) {
 
   if (error) throw error
   return data
+}
+
+export async function logout() {
+  return signOut()
 }
 
 export async function signOut() {
