@@ -8,10 +8,88 @@
   </head>
   <body>
     <div id="navbar"></div>
-    <main class="container py-5 page-placeholder">
+    <main class="container py-5">
       <h1 class="h3 mb-4"><i class="bi bi-shield-lock text-primary"></i> Админ панел</h1>
-      <div class="alert alert-secondary">
-        Админ панелът ще бъде имлементиран в следваща фаза.
+
+      <ul class="nav nav-tabs mb-4" id="admin-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users-panel" type="button">
+            <i class="bi bi-people me-1"></i>Потребители
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="skills-tab" data-bs-toggle="tab" data-bs-target="#skills-panel" type="button">
+            <i class="bi bi-collection me-1"></i>Умения
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories-panel" type="button">
+            <i class="bi bi-tags me-1"></i>Категории
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane fade show active" id="users-panel" role="tabpanel">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Потребител</th>
+                  <th>Имейл / Локация</th>
+                  <th>Роля</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="admin-users-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="skills-panel" role="tabpanel">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Заглавие</th>
+                  <th>Потребител</th>
+                  <th>Тип</th>
+                  <th>Статус</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="admin-skills-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="categories-panel" role="tabpanel">
+          <form id="category-form" class="row g-2 mb-4">
+            <div class="col-md-5">
+              <input type="text" class="form-control" id="category-name" placeholder="Име на категория" required />
+            </div>
+            <div class="col-md-5">
+              <input type="text" class="form-control" id="category-slug" placeholder="slug (напр. programirane)" required />
+            </div>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-plus-lg"></i>
+              </button>
+            </div>
+          </form>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Име</th>
+                  <th>Slug</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="admin-categories-body"></tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </main>
     <script type="module" src="/js/pages/admin.js"></script>
