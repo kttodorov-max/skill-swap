@@ -2,15 +2,22 @@ import { supabase } from './supabaseClient.js'
 
 const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
 const MAX_FILE_SIZE = 5 * 1024 * 1024
+export const MAX_AVATAR_SIZE = 2 * 1024 * 1024
+export const MAX_AVATAR_SIZE_MB = 2
 
-function validateImageFile(file) {
+function validateImageFile(file, maxSize = MAX_FILE_SIZE) {
   if (!file) throw new Error('Не е избран файл.')
   if (!IMAGE_TYPES.includes(file.type)) {
     throw new Error('Позволени са само JPEG, PNG, WebP и GIF изображения.')
   }
-  if (file.size > MAX_FILE_SIZE) {
-    throw new Error('Файлът трябва да е до 5 MB.')
+  if (file.size > maxSize) {
+    const limitMb = Math.round(maxSize / (1024 * 1024))
+    throw new Error(`Файлът трябва да е до ${limitMb} MB.`)
   }
+}
+
+function validateAvatarFile(file) {
+  validateImageFile(file, MAX_AVATAR_SIZE)
 }
 
 function getFileExtension(file) {
@@ -33,7 +40,7 @@ export function getPublicUrl(bucket, path) {
 }
 
 export async function uploadAvatar(userId, file) {
-  validateImageFile(file)
+  validateAvatarFile(file)
 
   const extension = getFileExtension(file)
   const path = `${userId}/avatar.${extension}`

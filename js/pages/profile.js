@@ -3,7 +3,7 @@ import { initNavbar } from '../components/navbar.js'
 import { renderSkillCard } from '../components/skillCard.js'
 import { getProfile, updateProfile } from '../../services/authService.js'
 import { fetchUserSkills, deleteSkill } from '../../services/skillsService.js'
-import { uploadAvatar } from '../../services/storageService.js'
+import { uploadAvatar, MAX_AVATAR_SIZE } from '../../services/storageService.js'
 import { requireAuth } from '../utils/guards.js'
 import { renderEmpty, renderLoading, setButtonLoading, showToast } from '../utils/dom.js'
 import { getErrorMessage } from '../utils/errors.js'
@@ -80,12 +80,18 @@ if (!session) {
     const file = avatarInput.files?.[0]
     if (!file) return
 
+    if (file.size > MAX_AVATAR_SIZE) {
+      showToast('Аватарът трябва да е до 2 MB.', 'warning')
+      avatarInput.value = ''
+      return
+    }
+
     try {
       setButtonLoading(saveBtn, true, 'Качване...')
       const avatarUrl = await uploadAvatar(userId, file)
       await updateProfile(userId, { avatar_url: avatarUrl })
       renderAvatar(avatarUrl)
-      showToast('Снимката е обновена.', 'success')
+      showToast('Аватарът е обновен.', 'success')
     } catch (error) {
       showToast(getErrorMessage(error), 'danger')
     } finally {

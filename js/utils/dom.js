@@ -1,3 +1,5 @@
+import { Toast } from 'bootstrap'
+
 export function escapeHtml(text) {
   const div = document.createElement('div')
   div.textContent = text ?? ''
@@ -90,7 +92,8 @@ export function showToast(message, type = 'success') {
   )
 
   const element = document.getElementById(id)
-  const toast = window.bootstrap.Toast.getOrCreateInstance(element, { delay: 4000 })
+  const ToastApi = Toast || window.bootstrap?.Toast
+  const toast = ToastApi.getOrCreateInstance(element, { delay: 4000 })
   toast.show()
   element.addEventListener('hidden.bs.toast', () => element.remove())
 }

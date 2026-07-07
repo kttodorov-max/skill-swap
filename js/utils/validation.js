@@ -3,7 +3,7 @@ export function validateUsername(username) {
     return 'Потребителското име трябва да е поне 3 символа.'
   }
   if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-    return 'Позволени са само букви, цифри и долна черта (_).'
+    return 'Позволени са само латински букви, цифри и долна черта (_).'
   }
   return null
 }

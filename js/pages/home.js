@@ -1,4 +1,5 @@
 import '../app.js'
+import { Modal } from 'bootstrap'
 import { initNavbar } from '../components/navbar.js'
 import { renderSkillCard } from '../components/skillCard.js'
 import { fetchCategories, fetchSkills, fetchUserSkills } from '../../services/skillsService.js'
@@ -37,7 +38,7 @@ if (auth?.isAuthenticated) {
   `
 }
 
-swapModal = window.bootstrap.Modal.getOrCreateInstance(swapModalEl)
+swapModal = Modal.getOrCreateInstance(swapModalEl)
 
 async function loadCategories() {
   const categories = await fetchCategories()
