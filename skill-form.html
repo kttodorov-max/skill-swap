@@ -8,10 +8,63 @@
   </head>
   <body>
     <div id="navbar"></div>
-    <main class="container py-5 page-placeholder">
-      <h1 class="h3 mb-4"><i class="bi bi-plus-circle text-primary"></i> Добави умение</h1>
-      <div class="alert alert-secondary">
-        Формата за умения ще бъде имлементирана в следваща фаза.
+    <main class="container py-5">
+      <h1 class="h3 mb-4" id="page-title">
+        <i class="bi bi-plus-circle text-primary"></i> Добави умение
+      </h1>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="card shadow-sm">
+            <div class="card-body p-4">
+              <div id="form-alert"></div>
+              <form id="skill-form" novalidate>
+                <div class="mb-3">
+                  <label for="title" class="form-label">Заглавие</label>
+                  <input type="text" class="form-control" id="title" required minlength="2" />
+                  <div class="invalid-feedback">Заглавието трябва да е поне 2 символа.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="description" class="form-label">Описание</label>
+                  <textarea class="form-control" id="description" rows="4"></textarea>
+                </div>
+                <div class="row g-3 mb-3">
+                  <div class="col-md-6">
+                    <label for="type" class="form-label">Тип</label>
+                    <select class="form-select" id="type" required>
+                      <option value="teach">Преподавам</option>
+                      <option value="learn">Търся да науча</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="category" class="form-label">Категория</label>
+                    <select class="form-select" id="category">
+                      <option value="">Без категория</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="image" class="form-label">Снимка</label>
+                  <input type="file" class="form-control" id="image" accept="image/jpeg,image/png,image/webp,image/gif" />
+                  <div id="image-preview" class="mt-2"></div>
+                </div>
+                <div class="form-check mb-4 d-none" id="active-wrapper">
+                  <input class="form-check-input" type="checkbox" id="is-active" checked />
+                  <label class="form-check-label" for="is-active">Активно умение (видимо за други)</label>
+                </div>
+                <div class="d-flex gap-2">
+                  <button type="submit" class="btn btn-primary" id="skill-submit-btn">
+                    <i class="bi bi-check-lg me-1"></i>Запази
+                  </button>
+                  <a href="profile.html" class="btn btn-outline-secondary">Отказ</a>
+                  <button type="button" class="btn btn-outline-danger ms-auto d-none" id="skill-delete-btn">
+                    <i class="bi bi-trash me-1"></i>Изтрий
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
     <script type="module" src="/js/pages/skill-form.js"></script>
