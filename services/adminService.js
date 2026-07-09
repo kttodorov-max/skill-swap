@@ -1,10 +1,5 @@
 import { supabase } from './supabaseClient.js'
 
-const PROFILE_SELECT = `
-  *,
-  user_roles (role)
-`
-
 const SKILL_SELECT = `
   *,
   profiles (username, full_name),
@@ -12,13 +7,25 @@ const SKILL_SELECT = `
 `
 
 export async function fetchAllProfiles() {
-  const { data, error } = await supabase
+  const { data: profiles, error: profilesError } = await supabase
     .from('profiles')
-    .select(PROFILE_SELECT)
+    .select('*')
     .order('created_at', { ascending: false })
 
-  if (error) throw error
-  return data
+  if (profilesError) throw profilesError
+
+  const { data: roles, error: rolesError } = await supabase
+    .from('user_roles')
+    .select('user_id, role')
+
+  if (rolesError) throw rolesError
+
+  const roleByUserId = Object.fromEntries((roles || []).map((item) => [item.user_id, item.role]))
+
+  return (profiles || []).map((profile) => ({
+    ...profile,
+    user_roles: { role: roleByUserId[profile.id] || 'user' },
+  }))
 }
 
 export async function fetchAllSkills() {
