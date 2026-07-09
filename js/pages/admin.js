@@ -1,4 +1,5 @@
 import '../app.js'
+import { Modal } from 'bootstrap'
 import {
   fetchAllProfiles,
   fetchAllSkills,
@@ -6,6 +7,7 @@ import {
   updateUserRole,
   adminDeleteSkill,
   createCategory,
+  updateCategory,
   deleteCategory,
   adminDeleteProfile,
 } from '../../services/adminService.js'
@@ -15,10 +17,16 @@ import { getErrorMessage } from '../utils/errors.js'
 
 const session = await initProtectedPage('admin', requireAdmin)
 if (session) {
+  const currentUserId = session.user.id
   const usersBody = document.getElementById('admin-users-body')
   const skillsBody = document.getElementById('admin-skills-body')
   const categoriesBody = document.getElementById('admin-categories-body')
   const categoryForm = document.getElementById('category-form')
+  const editCategoryForm = document.getElementById('edit-category-form')
+  const editCategoryModalEl = document.getElementById('editCategoryModal')
+  const editCategoryModal = Modal.getOrCreateInstance(editCategoryModalEl)
+
+  let categoriesCache = []
 
   async function loadUsers() {
     usersBody.innerHTML = `<tr><td colspan="4" class="text-center py-4">${renderLoading().replace(/<div class="col-12[^"]*">/, '<div>').replace('</div>\n', '')}</td></tr>`
@@ -36,21 +44,24 @@ if (session) {
           const roleData = profile.user_roles
           const role = Array.isArray(roleData) ? roleData[0]?.role : roleData?.role
           const currentRole = role || 'user'
+          const isSelf = profile.id === currentUserId
+
           return `
             <tr>
               <td>
                 <strong>${escapeHtml(profile.username)}</strong>
+                ${isSelf ? '<span class="badge bg-secondary ms-1">Вие</span>' : ''}
                 ${profile.full_name ? `<br><small class="text-muted">${escapeHtml(profile.full_name)}</small>` : ''}
               </td>
               <td>${escapeHtml(profile.location || '—')}</td>
               <td>
-                <select class="form-select form-select-sm" data-role-user="${profile.id}">
+                <select class="form-select form-select-sm" data-role-user="${profile.id}" ${isSelf ? 'disabled' : ''}>
                   <option value="user" ${currentRole === 'user' ? 'selected' : ''}>user</option>
                   <option value="admin" ${currentRole === 'admin' ? 'selected' : ''}>admin</option>
                 </select>
               </td>
               <td class="text-end">
-                <button class="btn btn-sm btn-outline-danger" data-delete-user="${profile.id}">
+                <button class="btn btn-sm btn-outline-danger" data-delete-user="${profile.id}" ${isSelf ? 'disabled' : ''}>
                   <i class="bi bi-trash"></i>
                 </button>
               </td>
@@ -66,6 +77,7 @@ if (session) {
             showToast('Ролята е обновена.', 'success')
           } catch (error) {
             showToast(getErrorMessage(error), 'danger')
+            await loadUsers()
           }
         })
       })
@@ -89,7 +101,7 @@ if (session) {
   }
 
   async function loadSkills() {
-    skillsBody.innerHTML = `<tr><td colspan="5" class="text-center py-4">Зареждане...</td></tr>`
+    skillsBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Зареждане...</td></tr>'
 
     try {
       const skills = await fetchAllSkills()
@@ -108,7 +120,7 @@ if (session) {
             <td><span class="badge bg-${skill.type === 'teach' ? 'success' : 'info'}">${skill.type}</span></td>
             <td>${skill.is_active ? '<span class="text-success">Активно</span>' : '<span class="text-muted">Скрито</span>'}</td>
             <td class="text-end">
-              <button class="btn btn-sm btn-outline-danger" data-delete-skill="${skill.id}">
+              <button class="btn btn-sm btn-outline-danger" data-delete-skill="${skill.id}" title="Изтрий">
                 <i class="bi bi-trash"></i>
               </button>
             </td>
@@ -139,16 +151,24 @@ if (session) {
     categoriesBody.innerHTML = '<tr><td colspan="3" class="text-center py-4">Зареждане...</td></tr>'
 
     try {
-      const categories = await fetchAllCategories()
+      categoriesCache = await fetchAllCategories()
 
-      categoriesBody.innerHTML = categories
+      if (!categoriesCache.length) {
+        categoriesBody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-4">Няма категории.</td></tr>'
+        return
+      }
+
+      categoriesBody.innerHTML = categoriesCache
         .map(
           (cat) => `
           <tr>
             <td>${escapeHtml(cat.name)}</td>
             <td><code>${escapeHtml(cat.slug)}</code></td>
             <td class="text-end">
-              <button class="btn btn-sm btn-outline-danger" data-delete-category="${cat.id}">
+              <button class="btn btn-sm btn-outline-primary me-1" data-edit-category="${cat.id}" title="Редакция">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" data-delete-category="${cat.id}" title="Изтрий">
                 <i class="bi bi-trash"></i>
               </button>
             </td>
@@ -156,6 +176,18 @@ if (session) {
         `
         )
         .join('')
+
+      categoriesBody.querySelectorAll('[data-edit-category]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const category = categoriesCache.find((item) => item.id === button.dataset.editCategory)
+          if (!category) return
+
+          document.getElementById('edit-category-id').value = category.id
+          document.getElementById('edit-category-name').value = category.name
+          document.getElementById('edit-category-slug').value = category.slug
+          editCategoryModal.show()
+        })
+      })
 
       categoriesBody.querySelectorAll('[data-delete-category]').forEach((button) => {
         button.addEventListener('click', async () => {
@@ -187,6 +219,25 @@ if (session) {
       await createCategory({ name, slug })
       categoryForm.reset()
       showToast('Категорията е добавена.', 'success')
+      await loadCategories()
+    } catch (error) {
+      showToast(getErrorMessage(error), 'danger')
+    }
+  })
+
+  editCategoryForm.addEventListener('submit', async (event) => {
+    event.preventDefault()
+
+    const categoryId = document.getElementById('edit-category-id').value
+    const name = document.getElementById('edit-category-name').value.trim()
+    const slug = document.getElementById('edit-category-slug').value.trim().toLowerCase()
+
+    if (!categoryId || !name || !slug) return
+
+    try {
+      await updateCategory(categoryId, { name, slug })
+      editCategoryModal.hide()
+      showToast('Категорията е обновена.', 'success')
       await loadCategories()
     } catch (error) {
       showToast(getErrorMessage(error), 'danger')

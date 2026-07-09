@@ -9,7 +9,10 @@
   <body>
     <div id="navbar"></div>
     <main class="container py-5">
-      <h1 class="h3 mb-4"><i class="bi bi-shield-lock text-primary"></i> Админ панел</h1>
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0"><i class="bi bi-shield-lock text-primary"></i> Админ панел</h1>
+        <span class="badge bg-danger"><i class="bi bi-shield-check me-1"></i>Admin only</span>
+      </div>
 
       <ul class="nav nav-tabs mb-4" id="admin-tabs" role="tablist">
         <li class="nav-item" role="presentation">
@@ -36,7 +39,7 @@
               <thead class="table-light">
                 <tr>
                   <th>Потребител</th>
-                  <th>Имейл / Локация</th>
+                  <th>Локация</th>
                   <th>Роля</th>
                   <th></th>
                 </tr>
@@ -92,6 +95,33 @@
         </div>
       </div>
     </main>
+
+    <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <form id="edit-category-form" class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title h5">Редакция на категория</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" id="edit-category-id" />
+            <div class="mb-3">
+              <label for="edit-category-name" class="form-label">Име</label>
+              <input type="text" class="form-control" id="edit-category-name" required />
+            </div>
+            <div class="mb-3">
+              <label for="edit-category-slug" class="form-label">Slug</label>
+              <input type="text" class="form-control" id="edit-category-slug" required />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
+            <button type="submit" class="btn btn-primary">Запази</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script type="module" src="/js/pages/admin.js"></script>
   </body>
 </html>

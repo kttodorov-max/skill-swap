@@ -69,6 +69,18 @@ export async function createCategory({ name, slug }) {
   return data
 }
 
+export async function updateCategory(categoryId, updates) {
+  const { data, error } = await supabase
+    .from('categories')
+    .update(updates)
+    .eq('id', categoryId)
+    .select()
+    .single()
+
+  if (error) throw error
+  return data
+}
+
 export async function deleteCategory(categoryId) {
   const { error } = await supabase.from('categories').delete().eq('id', categoryId)
   if (error) throw error
