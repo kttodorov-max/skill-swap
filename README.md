@@ -1,29 +1,29 @@
 # SkillSwap
 
-Платформа за обмен на умения – потребителите публикуват какво могат да преподават и какво искат да научат, разглеждат умения на други и изпращат заявки за обмен.
+A skill exchange platform where users publish what they can teach and what they want to learn, browse other users' skills, and send swap requests.
 
-**Курс:** Software Technologies with AI (SoftUni)  
-**Автор:** [kttodorov-max](https://github.com/kttodorov-max)
-
----
-
-## Функционалности
-
-- Регистрация и вход с email/парола (Supabase Auth)
-- Профил с аватар, биография и локация
-- CRUD за умения (тип *Преподавам* / *Търся да науча*) с категории и снимка
-- Преглед на умения с филтри и търсене
-- Детайлна страница на умение и предложение за обмен
-- Управление на заявки за обмен (входящи / изходящи) – pending → accepted / rejected
-- Нотификация за нови заявки (Bootstrap badge в navbar)
-- Админ панел с role-based достъп (потребители, умения, категории)
-- Качване на файлове в Supabase Storage (`avatars`, `skill-images`)
+**Course:** Software Technologies with AI (SoftUni)  
+**Author:** [kttodorov-max](https://github.com/kttodorov-max)
 
 ---
 
-## Архитектура
+## Features
 
-Приложението е **multi-page** (MPA) – всяка страница е отделен HTML файл. Няма SPA router.
+- Email/password registration and login (Supabase Auth)
+- Profile with avatar, bio, and location
+- Skill CRUD (type *I Teach* / *I Want to Learn*) with categories and images
+- Skill browsing with filters and search
+- Skill detail page and swap proposals
+- Swap request management (incoming / outgoing) – pending → accepted / rejected
+- Notification badge for new requests (Bootstrap badge in navbar)
+- Admin panel with role-based access (users, skills, categories)
+- File uploads to Supabase Storage (`avatars`, `skill-images`)
+
+---
+
+## Architecture
+
+The application is a **multi-page** app (MPA) – each screen is a separate HTML file. There is no SPA router.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -50,28 +50,28 @@
 └─────────────────────────────────────────────────────────────┘
 ```
 
-| Слой | Технологии |
-|------|------------|
+| Layer | Technologies |
+|-------|--------------|
 | **Frontend** | HTML5, CSS3, Vanilla ES6+, Bootstrap 5, Bootstrap Icons |
 | **Build** | Node.js 20+, npm, Vite (multi-page) |
 | **Backend** | Supabase – PostgreSQL, Auth, Storage, Row-Level Security |
 | **Deploy** | Netlify (`npm run build` → `dist/`) |
 
-### Страници
+### Pages
 
-| Файл | Описание |
-|------|----------|
-| `index.html` | Начало – списък с умения, филтри, swap modal |
-| `skill-detail.html` | Детайли за умение + предложи обмен |
-| `login.html` / `register.html` | Вход и регистрация |
-| `profile.html` | Профил, аватар, моите умения |
-| `skill-form.html` | Създаване / редакция на умение |
-| `swap-requests.html` | Входящи и изходящи заявки за обмен |
-| `admin.html` | Админ панел (само role `admin`) |
+| File | Description |
+|------|-------------|
+| `index.html` | Home – skill list, filters, swap modal |
+| `skill-detail.html` | Skill details + propose swap |
+| `login.html` / `register.html` | Login and registration |
+| `profile.html` | Profile, avatar, my skills |
+| `skill-form.html` | Create / edit skill |
+| `swap-requests.html` | Incoming and outgoing swap requests |
+| `admin.html` | Admin panel (role `admin` only) |
 
 ---
 
-## ER диаграма
+## ER Diagram
 
 ```mermaid
 erDiagram
@@ -140,13 +140,13 @@ erDiagram
     }
 ```
 
-**Enum типове:** `app_role` (user, admin) · `skill_type` (teach, learn) · `swap_request_status` (pending, accepted, rejected, cancelled, completed)
+**Enum types:** `app_role` (user, admin) · `skill_type` (teach, learn) · `swap_request_status` (pending, accepted, rejected, cancelled, completed)
 
-**Storage buckets:** `avatars` (профилни снимки, до 2 MB) · `skill-images` (снимки на умения, до 5 MB)
+**Storage buckets:** `avatars` (profile pictures, up to 2 MB) · `skill-images` (skill images, up to 5 MB)
 
 ---
 
-## Структура на проекта
+## Project Structure
 
 ```
 skill-swap/
@@ -154,55 +154,55 @@ skill-swap/
 ├── skill-form.html, skill-detail.html, swap-requests.html, admin.html
 ├── css/main.css
 ├── js/
-│   ├── app.js                 # Bootstrap + глобални стилове
+│   ├── app.js                 # Bootstrap + global styles
 │   ├── components/            # navbar, skillCard
-│   ├── pages/                 # логика по страница
+│   ├── pages/                 # per-page logic
 │   └── utils/                 # dom, guards, validation, errors
-├── services/                  # Supabase интеграция
+├── services/                  # Supabase integration
 │   ├── supabaseClient.js
 │   ├── authService.js
 │   ├── skillsService.js
 │   ├── swapService.js
 │   ├── storageService.js
 │   └── adminService.js
-├── supabase/migrations/       # SQL миграции (schema, RLS, storage, seed)
-├── scripts/check-env.mjs      # проверка на .env
-├── netlify.toml               # Netlify build конфигурация
+├── supabase/migrations/       # SQL migrations (schema, RLS, storage, seed)
+├── scripts/check-env.mjs      # .env validation
+├── netlify.toml               # Netlify build config
 ├── vite.config.js
 └── .env.example
 ```
 
 ---
 
-## Локална инсталация
+## Local Setup
 
 ```bash
 git clone https://github.com/kttodorov-max/skill-swap.git
 cd skill-swap
 npm install
-cp .env.example .env   # попълни ключовете от Supabase Dashboard
-npm run check:env      # проверка на конфигурацията
+cp .env.example .env   # fill in keys from Supabase Dashboard
+npm run check:env      # verify configuration
 npm run dev            # http://localhost:5173
 ```
 
-### Environment variables
+### Environment Variables
 
-| Променлива | Описание |
-|------------|----------|
-| `SUPABASE_URL` | URL на проекта (за Supabase CLI) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Service role key (само локално / CLI) |
-| `VITE_SUPABASE_URL` | URL за frontend |
-| `VITE_SUPABASE_ANON_KEY` | Anon (public) key за frontend |
+| Variable | Description |
+|----------|-------------|
+| `SUPABASE_URL` | Project URL (for Supabase CLI) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key (local / CLI only) |
+| `VITE_SUPABASE_URL` | URL for frontend |
+| `VITE_SUPABASE_ANON_KEY` | Anon (public) key for frontend |
 
-> Само променливи с префикс `VITE_` са достъпни в браузъра. **Не** използвайте service role key във frontend или Netlify.
+> Only variables prefixed with `VITE_` are exposed to the browser. **Do not** use the service role key in frontend or Netlify.
 
 ---
 
 ## Deployment (Netlify)
 
-1. Свържете GitHub repo-то с Netlify
-2. Build: `npm run build` · Publish: `dist/` (виж `netlify.toml`)
-3. Environment variables в Netlify (Production):
+1. Connect the GitHub repo to Netlify
+2. Build: `npm run build` · Publish: `dist/` (see `netlify.toml`)
+3. Environment variables in Netlify (Production):
    - `VITE_SUPABASE_URL`
    - `VITE_SUPABASE_ANON_KEY`
 4. Supabase → **Authentication → URL Configuration**:
@@ -211,16 +211,16 @@ npm run dev            # http://localhost:5173
 
 ---
 
-## Demo credentials
+## Demo Credentials
 
-| Роля | Email | Парола |
-|------|-------|--------|
+| Role | Email | Password |
+|------|-------|----------|
 | Admin | `demo@skillswap.bg` | `demo123` |
 
-> Seed: `supabase/migrations/20260709190000_seed_demo_admin.sql` (изпълнете в Supabase SQL Editor)
+> Seed: `supabase/migrations/20260709190000_seed_demo_admin.sql` (run in Supabase SQL Editor)
 
 ---
 
-## Лиценз
+## License
 
-Учебен проект – SoftUni Capstone.
+Educational project

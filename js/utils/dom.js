@@ -21,7 +21,7 @@ export function clearAlert(container) {
   if (container) container.innerHTML = ''
 }
 
-export function setButtonLoading(button, isLoading, loadingText = 'Зареждане...') {
+export function setButtonLoading(button, isLoading, loadingText = 'Loading...') {
   if (!button) return
 
   if (isLoading) {
@@ -39,9 +39,9 @@ export function renderLoading(colClass = 'col-12') {
   return `
     <div class="${colClass} text-center py-5">
       <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Зареждане...</span>
+        <span class="visually-hidden">Loading...</span>
       </div>
-      <p class="text-muted mt-2 mb-0">Зареждане...</p>
+      <p class="text-muted mt-2 mb-0">Loading...</p>
     </div>
   `
 }

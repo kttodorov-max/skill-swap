@@ -7,8 +7,8 @@ import { escapeHtml, renderEmpty, setButtonLoading, showToast } from '../utils/d
 import { getErrorMessage } from '../utils/errors.js'
 
 const TYPE_BADGES = {
-  teach: { class: 'bg-success', label: 'Преподавам', icon: 'bi-mortarboard' },
-  learn: { class: 'bg-info text-dark', label: 'Търся', icon: 'bi-search' },
+  teach: { class: 'bg-success', label: 'I Teach', icon: 'bi-mortarboard' },
+  learn: { class: 'bg-info text-dark', label: 'Seeking', icon: 'bi-search' },
 }
 
 const contentEl = document.getElementById('skill-detail-content')
@@ -30,7 +30,7 @@ const authState = await initNavbar('main')
 auth = authState
 
 if (!skillId) {
-  contentEl.innerHTML = renderEmpty('Липсва идентификатор на умение.', 'bi-exclamation-circle')
+  contentEl.innerHTML = renderEmpty('Skill ID is missing.', 'bi-exclamation-circle')
 } else {
   swapModal = Modal.getOrCreateInstance(swapModalEl)
   await loadSkill()
@@ -41,7 +41,7 @@ async function loadSkill() {
     skill = await fetchSkillById(skillId)
 
     if (!skill || !skill.is_active) {
-      contentEl.innerHTML = renderEmpty('Умението не е намерено.', 'bi-search')
+      contentEl.innerHTML = renderEmpty('Skill not found.', 'bi-search')
       return
     }
 
@@ -49,7 +49,7 @@ async function loadSkill() {
     breadcrumbTitle.textContent = skill.title
     renderDetail()
   } catch (error) {
-    contentEl.innerHTML = renderEmpty('Грешка при зареждане.', 'bi-exclamation-circle')
+    contentEl.innerHTML = renderEmpty('Failed to load skill.', 'bi-exclamation-circle')
     showToast(getErrorMessage(error), 'danger')
   }
 }
@@ -80,7 +80,7 @@ function renderDetail() {
           ${category ? `<span class="badge bg-light text-dark border">${escapeHtml(category.name)}</span>` : ''}
         </div>
         <h1 class="h2 mb-3">${escapeHtml(skill.title)}</h1>
-        <p class="text-muted">${escapeHtml(skill.description || 'Без описание.')}</p>
+        <p class="text-muted">${escapeHtml(skill.description || 'No description.')}</p>
         <div class="d-flex align-items-center gap-3 mt-4 pt-3 border-top">
           ${
             profile.avatar_url
@@ -88,7 +88,7 @@ function renderDetail() {
               : '<i class="bi bi-person-circle fs-1 text-muted"></i>'
           }
           <div>
-            <div class="fw-semibold">${escapeHtml(profile.username || 'Потребител')}</div>
+            <div class="fw-semibold">${escapeHtml(profile.username || 'User')}</div>
             ${profile.full_name ? `<div class="text-muted small">${escapeHtml(profile.full_name)}</div>` : ''}
           </div>
         </div>
@@ -96,19 +96,19 @@ function renderDetail() {
           ${
             canSwap
               ? `<button type="button" class="btn btn-primary" id="swap-open-btn">
-                   <i class="bi bi-arrow-left-right me-1"></i>Предложи обмен
+                   <i class="bi bi-arrow-left-right me-1"></i>Propose Swap
                  </button>`
               : ''
           }
           ${
             isOwner
               ? `<a href="skill-form.html?id=${skill.id}" class="btn btn-outline-primary">
-                   <i class="bi bi-pencil me-1"></i>Редактирай
+                   <i class="bi bi-pencil me-1"></i>Edit
                  </a>`
               : ''
           }
           <a href="index.html" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left me-1"></i>Назад
+            <i class="bi bi-arrow-left me-1"></i>Back
           </a>
         </div>
       </div>
@@ -125,7 +125,7 @@ async function openSwapModal() {
   }
 
   if (skill.user_id === auth.user.id) {
-    showToast('Не можете да предложите обмен на собствено умение.', 'warning')
+    showToast('You cannot propose a swap for your own skill.', 'warning')
     return
   }
 
@@ -134,7 +134,7 @@ async function openSwapModal() {
     const teachSkills = mySkills.filter((s) => s.type === 'teach' && s.is_active)
 
     if (!teachSkills.length) {
-      showToast('Добавете умение от тип „Преподавам“, за да предложите обмен.', 'warning')
+      showToast('Add an "I Teach" skill before proposing a swap.', 'warning')
       return
     }
 
@@ -142,7 +142,7 @@ async function openSwapModal() {
       .map((s) => `<option value="${s.id}">${escapeHtml(s.title)}</option>`)
       .join('')
 
-    swapTargetInfo.textContent = `Искате да научите: „${skill.title}" от ${skill.profiles?.username || 'потребител'}`
+    swapTargetInfo.textContent = `You want to learn: "${skill.title}" from ${skill.profiles?.username || 'user'}`
     swapModal.show()
   } catch (error) {
     showToast(getErrorMessage(error), 'danger')
@@ -153,7 +153,7 @@ swapForm?.addEventListener('submit', async (event) => {
   event.preventDefault()
   if (!skill) return
 
-  setButtonLoading(swapSubmitBtn, true, 'Изпращане...')
+  setButtonLoading(swapSubmitBtn, true, 'Sending...')
 
   try {
     await createSwapRequest({
@@ -166,7 +166,7 @@ swapForm?.addEventListener('submit', async (event) => {
 
     swapModal.hide()
     swapForm.reset()
-    showToast('Заявката за обмен е изпратена!', 'success')
+    showToast('Swap request sent!', 'success')
     await refreshNavbar()
   } catch (error) {
     showToast(getErrorMessage(error), 'danger')

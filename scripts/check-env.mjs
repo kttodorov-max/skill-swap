@@ -38,13 +38,13 @@ for (const key of [
   const value = env[key]
   const missing = !value
   const isPlaceholder = value && placeholders.some((placeholder) => value.includes(placeholder))
-  check(`${key} попълнен`, !missing && !isPlaceholder, missing ? 'липсва' : isPlaceholder ? 'placeholder' : 'OK')
+  check(`${key} set`, !missing && !isPlaceholder, missing ? 'missing' : isPlaceholder ? 'placeholder' : 'OK')
 }
 
 check(
-  'URL съвпадение',
+  'URL match',
   env.SUPABASE_URL === env.VITE_SUPABASE_URL,
-  env.SUPABASE_URL === env.VITE_SUPABASE_URL ? 'SUPABASE_URL = VITE_SUPABASE_URL' : 'различни URL'
+  env.SUPABASE_URL === env.VITE_SUPABASE_URL ? 'SUPABASE_URL = VITE_SUPABASE_URL' : 'different URLs'
 )
 
 const url = env.VITE_SUPABASE_URL
@@ -54,9 +54,9 @@ const serviceKey = env.SUPABASE_SERVICE_ROLE_KEY
 if (url && anonKey && !anonKey.includes('your-anon')) {
   const anonClient = createClient(url, anonKey)
   const { error } = await anonClient.from('categories').select('id').limit(1)
-  check('Anon key (API достъп)', !error, error ? error.message : 'categories достъпни')
+  check('Anon key (API access)', !error, error ? error.message : 'categories accessible')
 } else {
-  check('Anon key (API достъп)', false, 'невалиден ключ')
+  check('Anon key (API access)', false, 'invalid key')
 }
 
 if (url && serviceKey && !serviceKey.includes('your-service')) {
@@ -64,9 +64,9 @@ if (url && serviceKey && !serviceKey.includes('your-service')) {
     auth: { persistSession: false, autoRefreshToken: false },
   })
   const { error } = await adminClient.from('profiles').select('id').limit(1)
-  check('Service role key (API достъп)', !error, error ? error.message : 'profiles достъпни')
+  check('Service role key (API access)', !error, error ? error.message : 'profiles accessible')
 } else {
-  check('Service role key (API достъп)', false, 'невалиден ключ')
+  check('Service role key (API access)', false, 'invalid key')
 }
 
 if (url && anonKey) {
@@ -81,6 +81,6 @@ if (url && anonKey) {
 }
 
 console.log('')
-console.log(passed === total ? 'Всички проверки минаха успешно.' : `${total - passed} проверка(и) не минаха.`)
+console.log(passed === total ? 'All checks passed.' : `${total - passed} check(s) failed.`)
 
 process.exit(passed === total ? 0 : 1)

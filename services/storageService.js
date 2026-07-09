@@ -8,13 +8,13 @@ export const MAX_SKILL_IMAGE_SIZE = 5 * 1024 * 1024
 export const MAX_SKILL_IMAGE_SIZE_MB = 5
 
 function validateImageFile(file, maxSize = MAX_FILE_SIZE) {
-  if (!file) throw new Error('Не е избран файл.')
+  if (!file) throw new Error('No file selected.')
   if (!IMAGE_TYPES.includes(file.type)) {
-    throw new Error('Позволени са само JPEG, PNG, WebP и GIF изображения.')
+    throw new Error('Only JPEG, PNG, WebP, and GIF images are allowed.')
   }
   if (file.size > maxSize) {
     const limitMb = Math.round(maxSize / (1024 * 1024))
-    throw new Error(`Файлът трябва да е до ${limitMb} MB.`)
+    throw new Error(`File must be up to ${limitMb} MB.`)
   }
 }
 

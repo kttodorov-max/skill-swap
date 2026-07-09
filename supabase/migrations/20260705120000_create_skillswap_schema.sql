@@ -108,14 +108,14 @@ CREATE INDEX swap_requests_created_at_idx ON public.swap_requests (created_at DE
 -- ---------------------------------------------------------------------------
 
 INSERT INTO public.categories (name, slug) VALUES
-  ('Програмиране', 'programirane'),
-  ('Езици', 'ezici'),
-  ('Музика', 'muzika'),
-  ('Дизайн', 'dizajn'),
-  ('Спорт', 'sport'),
-  ('Готвене', 'gotvene'),
-  ('Бизнес', 'biznes'),
-  ('Други', 'drugi');
+  ('Programming', 'programirane'),
+  ('Languages', 'ezici'),
+  ('Music', 'muzika'),
+  ('Design', 'dizajn'),
+  ('Sports', 'sport'),
+  ('Cooking', 'gotvene'),
+  ('Business', 'biznes'),
+  ('Other', 'drugi');
 
 -- ---------------------------------------------------------------------------
 -- Utility triggers

@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="bg">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Добави умение – SkillSwap</title>
+    <title>Add Skill – SkillSwap</title>
   </head>
   <body>
     <div id="navbar"></div>
     <main class="container py-5">
       <h1 class="h3 mb-4" id="page-title">
-        <i class="bi bi-plus-circle text-primary"></i> Добави умение
+        <i class="bi bi-plus-circle text-primary"></i> Add Skill
       </h1>
 
       <div class="row justify-content-center">
@@ -20,46 +20,46 @@
               <div id="form-alert"></div>
               <form id="skill-form" novalidate>
                 <div class="mb-3">
-                  <label for="title" class="form-label">Заглавие</label>
+                  <label for="title" class="form-label">Title</label>
                   <input type="text" class="form-control" id="title" required minlength="2" />
-                  <div class="invalid-feedback">Заглавието трябва да е поне 2 символа.</div>
+                  <div class="invalid-feedback">Title must be at least 2 characters.</div>
                 </div>
                 <div class="mb-3">
-                  <label for="description" class="form-label">Описание</label>
+                  <label for="description" class="form-label">Description</label>
                   <textarea class="form-control" id="description" rows="4"></textarea>
                 </div>
                 <div class="row g-3 mb-3">
                   <div class="col-md-6">
-                    <label for="type" class="form-label">Тип</label>
+                    <label for="type" class="form-label">Type</label>
                     <select class="form-select" id="type" required>
-                      <option value="teach">Преподавам</option>
-                      <option value="learn">Търся да науча</option>
+                      <option value="teach">I Teach</option>
+                      <option value="learn">I Want to Learn</option>
                     </select>
                   </div>
                   <div class="col-md-6">
-                    <label for="category" class="form-label">Категория</label>
+                    <label for="category" class="form-label">Category</label>
                     <select class="form-select" id="category">
-                      <option value="">Без категория</option>
+                      <option value="">No category</option>
                     </select>
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="image" class="form-label">Снимка</label>
+                  <label for="image" class="form-label">Image</label>
                   <input type="file" class="form-control" id="image" accept="image/jpeg,image/png,image/webp,image/gif" />
-                  <p class="text-muted small mt-1 mb-0">До 5 MB · JPEG, PNG, WebP или GIF</p>
+                  <p class="text-muted small mt-1 mb-0">Up to 5 MB · JPEG, PNG, WebP, or GIF</p>
                   <div id="image-preview" class="mt-2"></div>
                 </div>
                 <div class="form-check mb-4 d-none" id="active-wrapper">
                   <input class="form-check-input" type="checkbox" id="is-active" checked />
-                  <label class="form-check-label" for="is-active">Активно умение (видимо за други)</label>
+                  <label class="form-check-label" for="is-active">Active skill (visible to others)</label>
                 </div>
                 <div class="d-flex gap-2">
                   <button type="submit" class="btn btn-primary" id="skill-submit-btn">
-                    <i class="bi bi-check-lg me-1"></i>Запази
+                    <i class="bi bi-check-lg me-1"></i>Save
                   </button>
-                  <a href="profile.html" class="btn btn-outline-secondary">Отказ</a>
+                  <a href="profile.html" class="btn btn-outline-secondary">Cancel</a>
                   <button type="button" class="btn btn-outline-danger ms-auto d-none" id="skill-delete-btn">
-                    <i class="bi bi-trash me-1"></i>Изтрий
+                    <i class="bi bi-trash me-1"></i>Delete
                   </button>
                 </div>
               </form>

@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="bg">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SkillSwap – Обмен на умения</title>
+    <title>SkillSwap – Skill Exchange</title>
   </head>
   <body>
     <div id="navbar"></div>
@@ -16,14 +16,14 @@
             SkillSwap
           </h1>
           <p class="lead text-muted mb-4">
-            Платформа за обмен на умения – преподавай това, което знаеш, и научи нещо ново.
+            A skill exchange platform – teach what you know and learn something new.
           </p>
           <div id="hero-actions" class="d-flex flex-wrap gap-2 justify-content-center">
             <a href="register.html" class="btn btn-primary btn-lg">
-              <i class="bi bi-person-plus me-1"></i> Започни сега
+              <i class="bi bi-person-plus me-1"></i> Get Started
             </a>
             <a href="skill-form.html" class="btn btn-outline-primary btn-lg">
-              <i class="bi bi-plus-circle me-1"></i> Добави умение
+              <i class="bi bi-plus-circle me-1"></i> Add Skill
             </a>
           </div>
         </div>
@@ -32,31 +32,31 @@
       <section class="container py-4">
         <div class="card shadow-sm mb-4">
           <div class="card-body">
-            <h2 class="h5 mb-3"><i class="bi bi-funnel me-2"></i>Филтри</h2>
+            <h2 class="h5 mb-3"><i class="bi bi-funnel me-2"></i>Filters</h2>
             <div class="row g-3">
               <div class="col-md-4">
-                <label for="filter-search" class="form-label">Търсене</label>
-                <input type="search" class="form-control" id="filter-search" placeholder="Заглавие на умение..." />
+                <label for="filter-search" class="form-label">Search</label>
+                <input type="search" class="form-control" id="filter-search" placeholder="Skill title..." />
               </div>
               <div class="col-md-4">
-                <label for="filter-type" class="form-label">Тип</label>
+                <label for="filter-type" class="form-label">Type</label>
                 <select class="form-select" id="filter-type">
-                  <option value="">Всички</option>
-                  <option value="teach">Преподавам</option>
-                  <option value="learn">Търся да науча</option>
+                  <option value="">All</option>
+                  <option value="teach">I Teach</option>
+                  <option value="learn">I Want to Learn</option>
                 </select>
               </div>
               <div class="col-md-4">
-                <label for="filter-category" class="form-label">Категория</label>
+                <label for="filter-category" class="form-label">Category</label>
                 <select class="form-select" id="filter-category">
-                  <option value="">Всички категории</option>
+                  <option value="">All categories</option>
                 </select>
               </div>
             </div>
           </div>
         </div>
 
-        <h2 class="h4 mb-4"><i class="bi bi-grid me-2"></i>Умения</h2>
+        <h2 class="h4 mb-4"><i class="bi bi-grid me-2"></i>Skills</h2>
         <div id="skills-list" class="row g-4"></div>
       </section>
     </main>
@@ -66,26 +66,26 @@
         <div class="modal-content">
           <div class="modal-header">
             <h2 class="modal-title h5" id="swapModalLabel">
-              <i class="bi bi-arrow-left-right me-1"></i>Предложи обмен
+              <i class="bi bi-arrow-left-right me-1"></i>Propose Swap
             </h2>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <form id="swap-form">
             <div class="modal-body">
               <p class="text-muted small" id="swap-target-info"></p>
               <div class="mb-3">
-                <label for="offered-skill" class="form-label">Моето умение (предлагам)</label>
+                <label for="offered-skill" class="form-label">My skill (offering)</label>
                 <select class="form-select" id="offered-skill" required></select>
               </div>
               <div class="mb-3">
-                <label for="swap-message" class="form-label">Съобщение (по желание)</label>
-                <textarea class="form-control" id="swap-message" rows="3" placeholder="Кратко съобщение..."></textarea>
+                <label for="swap-message" class="form-label">Message (optional)</label>
+                <textarea class="form-control" id="swap-message" rows="3" placeholder="Short message..."></textarea>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
               <button type="submit" class="btn btn-primary" id="swap-submit-btn">
-                <i class="bi bi-send me-1"></i>Изпрати заявка
+                <i class="bi bi-send me-1"></i>Send Request
               </button>
             </div>
           </form>

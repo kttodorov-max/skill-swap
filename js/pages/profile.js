@@ -20,7 +20,7 @@ if (session) {
 
   function renderAvatar(url) {
     avatarPreview.innerHTML = url
-      ? `<img src="${url}" class="rounded-circle" width="120" height="120" alt="Аватар" style="object-fit:cover">`
+      ? `<img src="${url}" class="rounded-circle" width="120" height="120" alt="Avatar" style="object-fit:cover">`
       : '<i class="bi bi-person-circle display-1 text-muted"></i>'
   }
 
@@ -42,7 +42,7 @@ if (session) {
       const skills = await fetchUserSkills(userId)
 
       if (!skills.length) {
-        mySkillsList.innerHTML = renderEmpty('Все още нямате добавени умения.', 'bi-plus-circle')
+        mySkillsList.innerHTML = renderEmpty('You have not added any skills yet.', 'bi-plus-circle')
         return
       }
 
@@ -54,17 +54,17 @@ if (session) {
         button.addEventListener('click', () => handleDeleteSkill(button.dataset.deleteSkill))
       })
     } catch (error) {
-      mySkillsList.innerHTML = renderEmpty('Грешка при зареждане на умения.', 'bi-exclamation-circle')
+      mySkillsList.innerHTML = renderEmpty('Failed to load skills.', 'bi-exclamation-circle')
       showToast(getErrorMessage(error), 'danger')
     }
   }
 
   async function handleDeleteSkill(skillId) {
-    if (!confirm('Сигурни ли сте, че искате да изтриете това умение?')) return
+    if (!confirm('Are you sure you want to delete this skill?')) return
 
     try {
       await deleteSkill(skillId)
-      showToast('Умението е изтрито.', 'success')
+      showToast('Skill deleted.', 'success')
       await loadMySkills()
     } catch (error) {
       showToast(getErrorMessage(error), 'danger')
@@ -76,17 +76,17 @@ if (session) {
     if (!file) return
 
     if (file.size > MAX_AVATAR_SIZE) {
-      showToast('Аватарът трябва да е до 2 MB.', 'warning')
+      showToast('Avatar must be up to 2 MB.', 'warning')
       avatarInput.value = ''
       return
     }
 
     try {
-      setButtonLoading(saveBtn, true, 'Качване...')
+      setButtonLoading(saveBtn, true, 'Uploading...')
       const avatarUrl = await uploadAvatar(userId, file)
       await updateProfile(userId, { avatar_url: avatarUrl })
       renderAvatar(avatarUrl)
-      showToast('Аватарът е обновен.', 'success')
+      showToast('Avatar updated.', 'success')
     } catch (error) {
       showToast(getErrorMessage(error), 'danger')
     } finally {
@@ -97,7 +97,7 @@ if (session) {
 
   profileForm.addEventListener('submit', async (event) => {
     event.preventDefault()
-    setButtonLoading(saveBtn, true, 'Запазване...')
+    setButtonLoading(saveBtn, true, 'Saving...')
 
     try {
       await updateProfile(userId, {
@@ -105,7 +105,7 @@ if (session) {
         location: document.getElementById('location').value.trim(),
         bio: document.getElementById('bio').value.trim(),
       })
-      showToast('Профилът е запазен.', 'success')
+      showToast('Profile saved.', 'success')
     } catch (error) {
       showToast(getErrorMessage(error), 'danger')
     } finally {

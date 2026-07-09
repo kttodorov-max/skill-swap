@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="bg">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Вход – SkillSwap</title>
+    <title>Login – SkillSwap</title>
   </head>
   <body>
     <div id="navbar"></div>
@@ -14,26 +14,26 @@
           <div class="card shadow-sm">
             <div class="card-body p-4">
               <h1 class="h3 mb-4 text-center">
-                <i class="bi bi-box-arrow-in-right text-primary"></i> Вход
+                <i class="bi bi-box-arrow-in-right text-primary"></i> Login
               </h1>
               <div id="form-alert"></div>
               <form id="login-form" novalidate>
                 <div class="mb-3">
-                  <label for="email" class="form-label">Имейл</label>
+                  <label for="email" class="form-label">Email</label>
                   <input type="email" class="form-control" id="email" autocomplete="email" required />
-                  <div class="invalid-feedback">Въведете валиден имейл.</div>
+                  <div class="invalid-feedback">Enter a valid email.</div>
                 </div>
                 <div class="mb-3">
-                  <label for="password" class="form-label">Парола</label>
+                  <label for="password" class="form-label">Password</label>
                   <input type="password" class="form-control" id="password" autocomplete="current-password" minlength="6" required />
-                  <div class="invalid-feedback">Паролата трябва да е поне 6 символа.</div>
+                  <div class="invalid-feedback">Password must be at least 6 characters.</div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100" id="login-btn">
-                  <i class="bi bi-box-arrow-in-right me-1"></i>Влез
+                  <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
                 </button>
               </form>
               <p class="text-center mt-3 mb-0 small text-muted">
-                Нямаш акаунт? <a href="register.html">Регистрирай се</a>
+                Don't have an account? <a href="register.html">Register</a>
               </p>
             </div>
           </div>

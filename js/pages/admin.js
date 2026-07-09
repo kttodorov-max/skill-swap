@@ -35,7 +35,7 @@ if (session) {
       const profiles = await fetchAllProfiles()
 
       if (!profiles.length) {
-        usersBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-4">Няма потребители.</td></tr>'
+        usersBody.innerHTML = '<tr><td colspan="4" class="text-center text-muted py-4">No users.</td></tr>'
         return
       }
 
@@ -50,7 +50,7 @@ if (session) {
             <tr>
               <td>
                 <strong>${escapeHtml(profile.username)}</strong>
-                ${isSelf ? '<span class="badge bg-secondary ms-1">Вие</span>' : ''}
+                ${isSelf ? '<span class="badge bg-secondary ms-1">You</span>' : ''}
                 ${profile.full_name ? `<br><small class="text-muted">${escapeHtml(profile.full_name)}</small>` : ''}
               </td>
               <td>${escapeHtml(profile.location || '—')}</td>
@@ -74,7 +74,7 @@ if (session) {
         select.addEventListener('change', async () => {
           try {
             await updateUserRole(select.dataset.roleUser, select.value)
-            showToast('Ролята е обновена.', 'success')
+            showToast('Role updated.', 'success')
           } catch (error) {
             showToast(getErrorMessage(error), 'danger')
             await loadUsers()
@@ -84,10 +84,10 @@ if (session) {
 
       usersBody.querySelectorAll('[data-delete-user]').forEach((button) => {
         button.addEventListener('click', async () => {
-          if (!confirm('Сигурни ли сте? Това ще изтрие потребителя и всички негови данни.')) return
+          if (!confirm('Are you sure? This will delete the user and all their data.')) return
           try {
             await adminDeleteProfile(button.dataset.deleteUser)
-            showToast('Потребителят е изтрит.', 'success')
+            showToast('User deleted.', 'success')
             await loadUsers()
           } catch (error) {
             showToast(getErrorMessage(error), 'danger')
@@ -95,19 +95,19 @@ if (session) {
         })
       })
     } catch (error) {
-      usersBody.innerHTML = '<tr><td colspan="4" class="text-center text-danger py-4">Грешка при зареждане.</td></tr>'
+      usersBody.innerHTML = '<tr><td colspan="4" class="text-center text-danger py-4">Failed to load users.</td></tr>'
       showToast(getErrorMessage(error), 'danger')
     }
   }
 
   async function loadSkills() {
-    skillsBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Зареждане...</td></tr>'
+    skillsBody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Loading...</td></tr>'
 
     try {
       const skills = await fetchAllSkills()
 
       if (!skills.length) {
-        skillsBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">Няма умения.</td></tr>'
+        skillsBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">No skills.</td></tr>'
         return
       }
 
@@ -118,9 +118,9 @@ if (session) {
             <td>${escapeHtml(skill.title)}</td>
             <td>${escapeHtml(skill.profiles?.username || '—')}</td>
             <td><span class="badge bg-${skill.type === 'teach' ? 'success' : 'info'}">${skill.type}</span></td>
-            <td>${skill.is_active ? '<span class="text-success">Активно</span>' : '<span class="text-muted">Скрито</span>'}</td>
+            <td>${skill.is_active ? '<span class="text-success">Active</span>' : '<span class="text-muted">Hidden</span>'}</td>
             <td class="text-end">
-              <button class="btn btn-sm btn-outline-danger" data-delete-skill="${skill.id}" title="Изтрий">
+              <button class="btn btn-sm btn-outline-danger" data-delete-skill="${skill.id}" title="Delete">
                 <i class="bi bi-trash"></i>
               </button>
             </td>
@@ -131,10 +131,10 @@ if (session) {
 
       skillsBody.querySelectorAll('[data-delete-skill]').forEach((button) => {
         button.addEventListener('click', async () => {
-          if (!confirm('Изтриване на умение?')) return
+          if (!confirm('Delete this skill?')) return
           try {
             await adminDeleteSkill(button.dataset.deleteSkill)
-            showToast('Умението е изтрито.', 'success')
+            showToast('Skill deleted.', 'success')
             await loadSkills()
           } catch (error) {
             showToast(getErrorMessage(error), 'danger')
@@ -142,19 +142,19 @@ if (session) {
         })
       })
     } catch (error) {
-      skillsBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-4">Грешка при зареждане.</td></tr>'
+      skillsBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-4">Failed to load skills.</td></tr>'
       showToast(getErrorMessage(error), 'danger')
     }
   }
 
   async function loadCategories() {
-    categoriesBody.innerHTML = '<tr><td colspan="3" class="text-center py-4">Зареждане...</td></tr>'
+    categoriesBody.innerHTML = '<tr><td colspan="3" class="text-center py-4">Loading...</td></tr>'
 
     try {
       categoriesCache = await fetchAllCategories()
 
       if (!categoriesCache.length) {
-        categoriesBody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-4">Няма категории.</td></tr>'
+        categoriesBody.innerHTML = '<tr><td colspan="3" class="text-center text-muted py-4">No categories.</td></tr>'
         return
       }
 
@@ -165,10 +165,10 @@ if (session) {
             <td>${escapeHtml(cat.name)}</td>
             <td><code>${escapeHtml(cat.slug)}</code></td>
             <td class="text-end">
-              <button class="btn btn-sm btn-outline-primary me-1" data-edit-category="${cat.id}" title="Редакция">
+              <button class="btn btn-sm btn-outline-primary me-1" data-edit-category="${cat.id}" title="Edit">
                 <i class="bi bi-pencil"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger" data-delete-category="${cat.id}" title="Изтрий">
+              <button class="btn btn-sm btn-outline-danger" data-delete-category="${cat.id}" title="Delete">
                 <i class="bi bi-trash"></i>
               </button>
             </td>
@@ -191,10 +191,10 @@ if (session) {
 
       categoriesBody.querySelectorAll('[data-delete-category]').forEach((button) => {
         button.addEventListener('click', async () => {
-          if (!confirm('Изтриване на категория?')) return
+          if (!confirm('Delete this category?')) return
           try {
             await deleteCategory(button.dataset.deleteCategory)
-            showToast('Категорията е изтрита.', 'success')
+            showToast('Category deleted.', 'success')
             await loadCategories()
           } catch (error) {
             showToast(getErrorMessage(error), 'danger')
@@ -202,7 +202,7 @@ if (session) {
         })
       })
     } catch (error) {
-      categoriesBody.innerHTML = '<tr><td colspan="3" class="text-center text-danger py-4">Грешка при зареждане.</td></tr>'
+      categoriesBody.innerHTML = '<tr><td colspan="3" class="text-center text-danger py-4">Failed to load categories.</td></tr>'
       showToast(getErrorMessage(error), 'danger')
     }
   }
@@ -218,7 +218,7 @@ if (session) {
     try {
       await createCategory({ name, slug })
       categoryForm.reset()
-      showToast('Категорията е добавена.', 'success')
+      showToast('Category added.', 'success')
       await loadCategories()
     } catch (error) {
       showToast(getErrorMessage(error), 'danger')
@@ -237,7 +237,7 @@ if (session) {
     try {
       await updateCategory(categoryId, { name, slug })
       editCategoryModal.hide()
-      showToast('Категорията е обновена.', 'success')
+      showToast('Category updated.', 'success')
       await loadCategories()
     } catch (error) {
       showToast(getErrorMessage(error), 'danger')

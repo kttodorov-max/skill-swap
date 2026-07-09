@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="bg">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Регистрация – SkillSwap</title>
+    <title>Register – SkillSwap</title>
   </head>
   <body>
     <div id="navbar"></div>
@@ -14,31 +14,31 @@
           <div class="card shadow-sm">
             <div class="card-body p-4">
               <h1 class="h3 mb-4 text-center">
-                <i class="bi bi-person-plus text-primary"></i> Регистрация
+                <i class="bi bi-person-plus text-primary"></i> Register
               </h1>
               <div id="form-alert"></div>
               <form id="register-form" novalidate>
                 <div class="mb-3">
-                  <label for="username" class="form-label">Потребителско име</label>
+                  <label for="username" class="form-label">Username</label>
                   <input type="text" class="form-control" id="username" autocomplete="username" minlength="3" required />
-                  <div class="invalid-feedback">Минимум 3 символа – латински букви, цифри и _.</div>
+                  <div class="invalid-feedback">At least 3 characters – letters, numbers, and underscore only.</div>
                 </div>
                 <div class="mb-3">
-                  <label for="email" class="form-label">Имейл</label>
+                  <label for="email" class="form-label">Email</label>
                   <input type="email" class="form-control" id="email" autocomplete="email" required />
-                  <div class="invalid-feedback">Въведете валиден имейл.</div>
+                  <div class="invalid-feedback">Enter a valid email.</div>
                 </div>
                 <div class="mb-3">
-                  <label for="password" class="form-label">Парола</label>
+                  <label for="password" class="form-label">Password</label>
                   <input type="password" class="form-control" id="password" autocomplete="new-password" minlength="6" required />
-                  <div class="invalid-feedback">Паролата трябва да е поне 6 символа.</div>
+                  <div class="invalid-feedback">Password must be at least 6 characters.</div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100" id="register-btn">
-                  <i class="bi bi-person-plus me-1"></i>Регистрирай се
+                  <i class="bi bi-person-plus me-1"></i>Register
                 </button>
               </form>
               <p class="text-center mt-3 mb-0 small text-muted">
-                Вече имаш акаунт? <a href="login.html">Влез</a>
+                Already have an account? <a href="login.html">Sign in</a>
               </p>
             </div>
           </div>

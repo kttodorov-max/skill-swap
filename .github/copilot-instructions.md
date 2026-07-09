@@ -149,7 +149,7 @@ Upload/download logic belongs in `services/storageService.js`.
 
 ## UI / UX Guidelines
 
-- Language: Bulgarian UI text.
+- Language: English UI text.
 - Responsive layout with Bootstrap grid (`container`, `row`, `col-*`).
 - Use Bootstrap Icons (`bi-*`) for visual cues.
 - Feedback: Bootstrap alerts or toasts for success/error.

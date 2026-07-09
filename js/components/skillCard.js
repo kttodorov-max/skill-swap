@@ -1,8 +1,8 @@
 import { escapeHtml } from '../utils/dom.js'
 
 const TYPE_BADGES = {
-  teach: { class: 'bg-success', label: 'Преподавам', icon: 'bi-mortarboard' },
-  learn: { class: 'bg-info text-dark', label: 'Търся', icon: 'bi-search' },
+  teach: { class: 'bg-success', label: 'I Teach', icon: 'bi-mortarboard' },
+  learn: { class: 'bg-info text-dark', label: 'Seeking', icon: 'bi-search' },
 }
 
 export function renderSkillCard(skill, options = {}) {
@@ -24,7 +24,7 @@ export function renderSkillCard(skill, options = {}) {
   const swapButton =
     showSwapButton && !isOwner && skill.type === 'teach'
       ? `<button type="button" class="btn btn-sm btn-primary" data-swap-skill="${skill.id}">
-           <i class="bi bi-arrow-left-right me-1"></i>Предложи обмен
+           <i class="bi bi-arrow-left-right me-1"></i>Propose Swap
          </button>`
       : ''
 
@@ -56,7 +56,7 @@ export function renderSkillCard(skill, options = {}) {
             </a>
           </h3>
           <p class="card-text text-muted small flex-grow-1">
-            ${escapeHtml(skill.description || 'Без описание.')}
+            ${escapeHtml(skill.description || 'No description.')}
           </p>
           <div class="d-flex align-items-center gap-2 mt-2 pt-2 border-top">
             ${
@@ -64,7 +64,7 @@ export function renderSkillCard(skill, options = {}) {
                 ? `<img src="${escapeHtml(profile.avatar_url)}" class="rounded-circle" width="32" height="32" alt="" style="object-fit:cover">`
                 : '<i class="bi bi-person-circle fs-4 text-muted"></i>'
             }
-            <small class="text-muted">${escapeHtml(profile.username || 'Потребител')}</small>
+            <small class="text-muted">${escapeHtml(profile.username || 'User')}</small>
           </div>
         </div>
         ${

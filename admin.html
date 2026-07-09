@@ -1,33 +1,33 @@
 <!doctype html>
-<html lang="bg">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Админ панел – SkillSwap</title>
+    <title>Admin Panel – SkillSwap</title>
   </head>
   <body>
     <div id="navbar"></div>
     <main class="container py-5">
       <div class="d-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0"><i class="bi bi-shield-lock text-primary"></i> Админ панел</h1>
+        <h1 class="h3 mb-0"><i class="bi bi-shield-lock text-primary"></i> Admin Panel</h1>
         <span class="badge bg-danger"><i class="bi bi-shield-check me-1"></i>Admin only</span>
       </div>
 
       <ul class="nav nav-tabs mb-4" id="admin-tabs" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users-panel" type="button">
-            <i class="bi bi-people me-1"></i>Потребители
+            <i class="bi bi-people me-1"></i>Users
           </button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="skills-tab" data-bs-toggle="tab" data-bs-target="#skills-panel" type="button">
-            <i class="bi bi-collection me-1"></i>Умения
+            <i class="bi bi-collection me-1"></i>Skills
           </button>
         </li>
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories-panel" type="button">
-            <i class="bi bi-tags me-1"></i>Категории
+            <i class="bi bi-tags me-1"></i>Categories
           </button>
         </li>
       </ul>
@@ -38,9 +38,9 @@
             <table class="table table-hover align-middle">
               <thead class="table-light">
                 <tr>
-                  <th>Потребител</th>
-                  <th>Локация</th>
-                  <th>Роля</th>
+                  <th>User</th>
+                  <th>Location</th>
+                  <th>Role</th>
                   <th></th>
                 </tr>
               </thead>
@@ -54,10 +54,10 @@
             <table class="table table-hover align-middle">
               <thead class="table-light">
                 <tr>
-                  <th>Заглавие</th>
-                  <th>Потребител</th>
-                  <th>Тип</th>
-                  <th>Статус</th>
+                  <th>Title</th>
+                  <th>User</th>
+                  <th>Type</th>
+                  <th>Status</th>
                   <th></th>
                 </tr>
               </thead>
@@ -69,10 +69,10 @@
         <div class="tab-pane fade" id="categories-panel" role="tabpanel">
           <form id="category-form" class="row g-2 mb-4">
             <div class="col-md-5">
-              <input type="text" class="form-control" id="category-name" placeholder="Име на категория" required />
+              <input type="text" class="form-control" id="category-name" placeholder="Category name" required />
             </div>
             <div class="col-md-5">
-              <input type="text" class="form-control" id="category-slug" placeholder="slug (напр. programirane)" required />
+              <input type="text" class="form-control" id="category-slug" placeholder="slug (e.g. programming)" required />
             </div>
             <div class="col-md-2">
               <button type="submit" class="btn btn-primary w-100">
@@ -84,7 +84,7 @@
             <table class="table table-hover align-middle">
               <thead class="table-light">
                 <tr>
-                  <th>Име</th>
+                  <th>Name</th>
                   <th>Slug</th>
                   <th></th>
                 </tr>
@@ -100,13 +100,13 @@
       <div class="modal-dialog">
         <form id="edit-category-form" class="modal-content">
           <div class="modal-header">
-            <h2 class="modal-title h5">Редакция на категория</h2>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+            <h2 class="modal-title h5">Edit Category</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <input type="hidden" id="edit-category-id" />
             <div class="mb-3">
-              <label for="edit-category-name" class="form-label">Име</label>
+              <label for="edit-category-name" class="form-label">Name</label>
               <input type="text" class="form-control" id="edit-category-name" required />
             </div>
             <div class="mb-3">
@@ -115,8 +115,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
-            <button type="submit" class="btn btn-primary">Запази</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save</button>
           </div>
         </form>
       </div>

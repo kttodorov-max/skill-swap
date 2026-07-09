@@ -2,19 +2,19 @@ import { getAuthContext, logout } from '../../services/authService.js'
 import { countPendingIncoming } from '../../services/swapService.js'
 
 const PUBLIC_PAGES = [
-  { id: 'main', href: 'index.html', label: 'Начало', icon: 'bi-house' },
+  { id: 'main', href: 'index.html', label: 'Home', icon: 'bi-house' },
 ]
 
 const AUTH_PAGES = [
-  { id: 'profile', href: 'profile.html', label: 'Профил', icon: 'bi-person' },
-  { id: 'skillForm', href: 'skill-form.html', label: 'Добави умение', icon: 'bi-plus-circle' },
-  { id: 'swapRequests', href: 'swap-requests.html', label: 'Заявки', icon: 'bi-arrow-left-right' },
+  { id: 'profile', href: 'profile.html', label: 'Profile', icon: 'bi-person' },
+  { id: 'skillForm', href: 'skill-form.html', label: 'Add Skill', icon: 'bi-plus-circle' },
+  { id: 'swapRequests', href: 'swap-requests.html', label: 'Requests', icon: 'bi-arrow-left-right' },
 ]
 
 const ADMIN_PAGE = {
   id: 'admin',
   href: 'admin.html',
-  label: 'Админ',
+  label: 'Admin',
   icon: 'bi-shield-lock',
 }
 
@@ -39,19 +39,19 @@ function renderGuestActions(activePage) {
   return `
     <li class="nav-item">
       <a class="nav-link${activePage === 'login' ? ' active' : ''}" href="login.html">
-        <i class="bi bi-box-arrow-in-right me-1"></i>Вход
+        <i class="bi bi-box-arrow-in-right me-1"></i>Login
       </a>
     </li>
     <li class="nav-item">
       <a class="btn btn-primary btn-sm ms-lg-2 mt-2 mt-lg-0${activePage === 'register' ? ' active' : ''}" href="register.html">
-        Регистрация
+        Register
       </a>
     </li>
   `
 }
 
 function renderUserActions(auth, activePage) {
-  const displayName = auth.profile?.username || auth.user?.email || 'Профил'
+  const displayName = auth.profile?.username || auth.user?.email || 'Profile'
   const avatar = auth.profile?.avatar_url
 
   return `
@@ -73,13 +73,13 @@ function renderUserActions(auth, activePage) {
       <ul class="dropdown-menu dropdown-menu-end">
         <li>
           <a class="dropdown-item" href="profile.html">
-            <i class="bi bi-person me-2"></i>Моят профил
+            <i class="bi bi-person me-2"></i>My Profile
           </a>
         </li>
         <li><hr class="dropdown-divider"></li>
         <li>
           <button type="button" class="dropdown-item text-danger" data-logout>
-            <i class="bi bi-box-arrow-right me-2"></i>Изход
+            <i class="bi bi-box-arrow-right me-2"></i>Logout
           </button>
         </li>
       </ul>
@@ -117,7 +117,7 @@ export function renderNavbar(
           data-bs-target="#mainNavbar"
           aria-controls="mainNavbar"
           aria-expanded="false"
-          aria-label="Превключи навигацията"
+          aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -163,7 +163,7 @@ export async function initNavbar(activePage = '') {
       window.location.replace('index.html')
     } catch (error) {
       console.error('Logout failed:', error)
-      alert('Изходът не бе успешен. Опитайте отново.')
+      alert('Logout failed. Please try again.')
     }
   })
 

@@ -30,10 +30,10 @@ auth = authState
 if (auth?.isAuthenticated) {
   heroActions.innerHTML = `
     <a href="skill-form.html" class="btn btn-primary btn-lg">
-      <i class="bi bi-plus-circle me-1"></i> Добави умение
+      <i class="bi bi-plus-circle me-1"></i> Add Skill
     </a>
     <a href="swap-requests.html" class="btn btn-outline-primary btn-lg">
-      <i class="bi bi-arrow-left-right me-1"></i> Моите заявки
+      <i class="bi bi-arrow-left-right me-1"></i> My Requests
     </a>
   `
 }
@@ -43,7 +43,7 @@ swapModal = Modal.getOrCreateInstance(swapModalEl)
 async function loadCategories() {
   const categories = await fetchCategories()
   filterCategory.innerHTML =
-    '<option value="">Всички категории</option>' +
+    '<option value="">All categories</option>' +
     categories.map((c) => `<option value="${c.id}">${c.name}</option>`).join('')
 }
 
@@ -60,14 +60,14 @@ async function loadSkills() {
     skillsCache = skills
     renderSkills(skills)
   } catch (error) {
-    skillsList.innerHTML = renderEmpty('Грешка при зареждане на умения.', 'bi-exclamation-circle')
+    skillsList.innerHTML = renderEmpty('Failed to load skills.', 'bi-exclamation-circle')
     showToast(getErrorMessage(error), 'danger')
   }
 }
 
 function renderSkills(skills) {
   if (!skills.length) {
-    skillsList.innerHTML = renderEmpty('Няма намерени умения.', 'bi-search')
+    skillsList.innerHTML = renderEmpty('No skills found.', 'bi-search')
     return
   }
 
@@ -95,7 +95,7 @@ async function openSwapModal(skillId) {
   if (!selectedTargetSkill) return
 
   if (selectedTargetSkill.user_id === auth.user.id) {
-    showToast('Не можете да предложите обмен на собствено умение.', 'warning')
+    showToast('You cannot propose a swap for your own skill.', 'warning')
     return
   }
 
@@ -104,7 +104,7 @@ async function openSwapModal(skillId) {
     const teachSkills = mySkills.filter((s) => s.type === 'teach' && s.is_active)
 
     if (!teachSkills.length) {
-      showToast('Добавете умение от тип „Преподавам“, за да предложите обмен.', 'warning')
+      showToast('Add an "I Teach" skill before proposing a swap.', 'warning')
       return
     }
 
@@ -112,7 +112,7 @@ async function openSwapModal(skillId) {
       .map((s) => `<option value="${s.id}">${s.title}</option>`)
       .join('')
 
-    swapTargetInfo.textContent = `Искате да научите: „${selectedTargetSkill.title}" от ${selectedTargetSkill.profiles?.username || 'потребител'}`
+    swapTargetInfo.textContent = `You want to learn: "${selectedTargetSkill.title}" from ${selectedTargetSkill.profiles?.username || 'user'}`
     swapModal.show()
   } catch (error) {
     showToast(getErrorMessage(error), 'danger')
@@ -130,7 +130,7 @@ swapForm.addEventListener('submit', async (event) => {
   event.preventDefault()
   if (!selectedTargetSkill) return
 
-  setButtonLoading(swapSubmitBtn, true, 'Изпращане...')
+  setButtonLoading(swapSubmitBtn, true, 'Sending...')
 
   try {
     await createSwapRequest({
@@ -143,7 +143,7 @@ swapForm.addEventListener('submit', async (event) => {
 
     swapModal.hide()
     swapForm.reset()
-    showToast('Заявката за обмен е изпратена!', 'success')
+    showToast('Swap request sent!', 'success')
     await refreshNavbar()
   } catch (error) {
     showToast(getErrorMessage(error), 'danger')

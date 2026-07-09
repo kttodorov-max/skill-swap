@@ -32,7 +32,7 @@ if (session) {
   let pendingImageFile = null
 
   if (isEdit) {
-    pageTitle.innerHTML = '<i class="bi bi-pencil text-primary"></i> Редакция на умение'
+    pageTitle.innerHTML = '<i class="bi bi-pencil text-primary"></i> Edit Skill'
     activeWrapper.classList.remove('d-none')
     deleteBtn.classList.remove('d-none')
   }
@@ -40,7 +40,7 @@ if (session) {
   async function loadCategories() {
     const categories = await fetchCategories()
     categorySelect.innerHTML =
-      '<option value="">Без категория</option>' +
+      '<option value="">No category</option>' +
       categories.map((c) => `<option value="${c.id}">${c.name}</option>`).join('')
   }
 
@@ -50,7 +50,7 @@ if (session) {
     existingSkill = await fetchSkillById(skillId)
 
     if (!existingSkill || existingSkill.user_id !== userId) {
-      showAlert(alertBox, 'Умението не е намерено или нямате достъп.', 'danger')
+      showAlert(alertBox, 'Skill not found or you do not have access.', 'danger')
       form.classList.add('d-none')
       return
     }
@@ -77,7 +77,7 @@ if (session) {
     }
 
     if (pendingImageFile.size > MAX_SKILL_IMAGE_SIZE) {
-      showToast(`Снимката трябва да е до ${MAX_SKILL_IMAGE_SIZE_MB} MB.`, 'warning')
+      showToast(`Image must be up to ${MAX_SKILL_IMAGE_SIZE_MB} MB.`, 'warning')
       event.target.value = ''
       pendingImageFile = null
       return
@@ -99,7 +99,7 @@ if (session) {
       return
     }
 
-    setButtonLoading(submitBtn, true, 'Запазване...')
+    setButtonLoading(submitBtn, true, 'Saving...')
 
     try {
       const skillData = {
@@ -127,7 +127,7 @@ if (session) {
         savedSkill = await updateSkill(savedSkill.id, { image_url: imageUrl })
       }
 
-      showToast(isEdit ? 'Умението е обновено.' : 'Умението е добавено.', 'success')
+      showToast(isEdit ? 'Skill updated.' : 'Skill added.', 'success')
       setTimeout(() => {
         window.location.href = 'profile.html'
       }, 800)
@@ -139,11 +139,11 @@ if (session) {
   })
 
   deleteBtn.addEventListener('click', async () => {
-    if (!confirm('Сигурни ли сте, че искате да изтриете това умение?')) return
+    if (!confirm('Are you sure you want to delete this skill?')) return
 
     try {
       await deleteSkill(skillId)
-      showToast('Умението е изтрито.', 'success')
+      showToast('Skill deleted.', 'success')
       setTimeout(() => {
         window.location.href = 'profile.html'
       }, 800)

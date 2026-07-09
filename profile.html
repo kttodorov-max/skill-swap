@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="bg">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Профил – SkillSwap</title>
+    <title>Profile – SkillSwap</title>
   </head>
   <body>
     <div id="navbar"></div>
     <main class="container py-5">
-      <h1 class="h3 mb-4"><i class="bi bi-person text-primary"></i> Моят профил</h1>
+      <h1 class="h3 mb-4"><i class="bi bi-person text-primary"></i> My Profile</h1>
 
       <div class="row g-4">
         <div class="col-lg-4">
@@ -19,10 +19,10 @@
                 <i class="bi bi-person-circle display-1 text-muted"></i>
               </div>
               <label for="avatar-input" class="btn btn-outline-primary btn-sm">
-                <i class="bi bi-person-bounding-box me-1"></i>Смени аватар
+                <i class="bi bi-person-bounding-box me-1"></i>Change Avatar
               </label>
               <input type="file" id="avatar-input" class="d-none" accept="image/jpeg,image/png,image/webp,image/gif" />
-              <p class="text-muted small mt-2 mb-0">До 2 MB · JPEG, PNG, WebP или GIF</p>
+              <p class="text-muted small mt-2 mb-0">Up to 2 MB · JPEG, PNG, WebP, or GIF</p>
             </div>
           </div>
         </div>
@@ -33,24 +33,24 @@
               <form id="profile-form">
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="username" class="form-label">Потребителско име</label>
+                    <label for="username" class="form-label">Username</label>
                     <input type="text" class="form-control" id="username" disabled />
                   </div>
                   <div class="col-md-6">
-                    <label for="full-name" class="form-label">Пълно име</label>
+                    <label for="full-name" class="form-label">Full Name</label>
                     <input type="text" class="form-control" id="full-name" />
                   </div>
                   <div class="col-12">
-                    <label for="location" class="form-label">Локация</label>
-                    <input type="text" class="form-control" id="location" placeholder="Напр. София" />
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" class="form-control" id="location" placeholder="e.g. Sofia" />
                   </div>
                   <div class="col-12">
-                    <label for="bio" class="form-label">Биография</label>
-                    <textarea class="form-control" id="bio" rows="4" placeholder="Разкажи накратко за себе си..."></textarea>
+                    <label for="bio" class="form-label">Bio</label>
+                    <textarea class="form-control" id="bio" rows="4" placeholder="Tell us a bit about yourself..."></textarea>
                   </div>
                   <div class="col-12">
                     <button type="submit" class="btn btn-primary" id="profile-save-btn">
-                      <i class="bi bi-check-lg me-1"></i>Запази профила
+                      <i class="bi bi-check-lg me-1"></i>Save Profile
                     </button>
                   </div>
                 </div>
@@ -62,9 +62,9 @@
 
       <section class="mt-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="h4 mb-0"><i class="bi bi-collection me-2"></i>Моите умения</h2>
+          <h2 class="h4 mb-0"><i class="bi bi-collection me-2"></i>My Skills</h2>
           <a href="skill-form.html" class="btn btn-sm btn-primary">
-            <i class="bi bi-plus-circle me-1"></i>Добави
+            <i class="bi bi-plus-circle me-1"></i>Add
           </a>
         </div>
         <div id="my-skills-list" class="row g-4"></div>

@@ -29,11 +29,11 @@ if (await redirectIfAuthenticated(redirectTo)) {
     form.password.classList.toggle('is-invalid', !!validatePassword(password))
 
     if (validateEmail(email) || validatePassword(password)) {
-      showAlert(alertBox, 'Моля, поправете грешките във формата.', 'warning')
+      showAlert(alertBox, 'Please fix the errors in the form.', 'warning')
       return
     }
 
-    setButtonLoading(submitBtn, true, 'Влизане...')
+    setButtonLoading(submitBtn, true, 'Signing in...')
 
     try {
       await login({ email, password })

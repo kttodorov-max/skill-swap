@@ -37,7 +37,7 @@ if (await redirectIfAuthenticated('profile.html')) {
       return
     }
 
-    setButtonLoading(submitBtn, true, 'Регистрация...')
+    setButtonLoading(submitBtn, true, 'Registering...')
 
     try {
       const data = await register({ email, password, username })
@@ -50,7 +50,7 @@ if (await redirectIfAuthenticated('profile.html')) {
 
         showAlert(
           alertBox,
-          'Регистрацията е успешна, но профилът се създава. Опитайте да влезете след малко.',
+          'Registration successful, but your profile is still being created. Try signing in shortly.',
           'warning'
         )
         return
@@ -59,8 +59,8 @@ if (await redirectIfAuthenticated('profile.html')) {
       showAlert(
         alertBox,
         data.user
-          ? 'Регистрацията е успешна! Проверете имейла си за потвърждение, след което влезте.'
-          : 'Регистрацията е успешна! Можете да влезете.',
+          ? 'Registration successful! Check your email for confirmation, then sign in.'
+          : 'Registration successful! You can sign in now.',
         'success'
       )
       form.reset()

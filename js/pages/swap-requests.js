@@ -16,11 +16,11 @@ if (session) {
   const outgoingList = document.getElementById('outgoing-list')
 
   const STATUS_MAP = {
-    pending: { class: 'warning', label: 'Изчаква' },
-    accepted: { class: 'success', label: 'Приета' },
-    rejected: { class: 'danger', label: 'Отхвърлена' },
-    cancelled: { class: 'secondary', label: 'Отменена' },
-    completed: { class: 'primary', label: 'Завършена' },
+    pending: { class: 'warning', label: 'Pending' },
+    accepted: { class: 'success', label: 'Accepted' },
+    rejected: { class: 'danger', label: 'Rejected' },
+    cancelled: { class: 'secondary', label: 'Cancelled' },
+    completed: { class: 'primary', label: 'Completed' },
   }
 
   function renderRequestCard(request, type) {
@@ -33,16 +33,16 @@ if (session) {
       if (type === 'incoming') {
         actions = `
           <button class="btn btn-sm btn-success me-1" data-action="accept" data-id="${request.id}">
-            <i class="bi bi-check-lg"></i> Приеми
+            <i class="bi bi-check-lg"></i> Accept
           </button>
           <button class="btn btn-sm btn-danger" data-action="reject" data-id="${request.id}">
-            <i class="bi bi-x-lg"></i> Откажи
+            <i class="bi bi-x-lg"></i> Reject
           </button>
         `
       } else {
         actions = `
           <button class="btn btn-sm btn-outline-secondary" data-action="cancel" data-id="${request.id}">
-            <i class="bi bi-x-circle"></i> Отмени
+            <i class="bi bi-x-circle"></i> Cancel
           </button>
         `
       }
@@ -54,21 +54,21 @@ if (session) {
           <div class="d-flex justify-content-between align-items-start mb-2">
             <div>
               <span class="badge bg-${status.class}">${status.label}</span>
-              <small class="text-muted ms-2">${new Date(request.created_at).toLocaleDateString('bg-BG')}</small>
+              <small class="text-muted ms-2">${new Date(request.created_at).toLocaleDateString('en-US')}</small>
             </div>
             <div>${actions}</div>
           </div>
           <p class="mb-1">
-            <strong>${type === 'incoming' ? 'От' : 'До'}:</strong>
-            ${escapeHtml(otherUser?.username || 'Потребител')}
+            <strong>${type === 'incoming' ? 'From' : 'To'}:</strong>
+            ${escapeHtml(otherUser?.username || 'User')}
           </p>
           <p class="mb-1 small">
             <i class="bi bi-arrow-right text-muted"></i>
-            Предлага: <strong>${escapeHtml(request.offered_skill?.title || '—')}</strong>
+            Offers: <strong>${escapeHtml(request.offered_skill?.title || '—')}</strong>
           </p>
           <p class="mb-1 small">
             <i class="bi bi-arrow-left text-muted"></i>
-            Иска: <strong>${escapeHtml(request.requested_skill?.title || '—')}</strong>
+            Wants: <strong>${escapeHtml(request.requested_skill?.title || '—')}</strong>
           </p>
           ${request.message ? `<p class="text-muted small mb-0 mt-2 fst-italic">„${escapeHtml(request.message)}"</p>` : ''}
         </div>
@@ -78,7 +78,7 @@ if (session) {
 
   function renderList(container, requests, type) {
     if (!requests.length) {
-      container.innerHTML = `<div class="py-4">${renderEmpty('Няма заявки.', 'bi-inbox').replace('col-12', '')}</div>`
+      container.innerHTML = `<div class="py-4">${renderEmpty('No requests.', 'bi-inbox').replace('col-12', '')}</div>`
       return
     }
 
@@ -108,7 +108,7 @@ if (session) {
       } else {
         await updateSwapRequestStatus(requestId, status)
       }
-      showToast('Заявката е обновена.', 'success')
+      showToast('Request updated.', 'success')
       await loadRequests()
       await refreshNavbar()
     } catch (error) {
@@ -129,7 +129,7 @@ if (session) {
       renderList(incomingList, incoming, 'incoming')
       renderList(outgoingList, outgoing, 'outgoing')
     } catch (error) {
-      const errorHtml = `<div class="py-4">${renderEmpty('Грешка при зареждане.', 'bi-exclamation-circle').replace('col-12', '')}</div>`
+      const errorHtml = `<div class="py-4">${renderEmpty('Failed to load requests.', 'bi-exclamation-circle').replace('col-12', '')}</div>`
       incomingList.innerHTML = errorHtml
       outgoingList.innerHTML = errorHtml
       showToast(getErrorMessage(error), 'danger')
