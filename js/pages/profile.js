@@ -1,19 +1,14 @@
 import '../app.js'
-import { initNavbar } from '../components/navbar.js'
 import { renderSkillCard } from '../components/skillCard.js'
 import { getProfile, updateProfile } from '../../services/authService.js'
 import { fetchUserSkills, deleteSkill } from '../../services/skillsService.js'
 import { uploadAvatar, MAX_AVATAR_SIZE } from '../../services/storageService.js'
-import { requireAuth } from '../utils/guards.js'
+import { initProtectedPage } from '../utils/guards.js'
 import { renderEmpty, renderLoading, setButtonLoading, showToast } from '../utils/dom.js'
 import { getErrorMessage } from '../utils/errors.js'
 
-await initNavbar('profile')
-
-const session = await requireAuth()
-if (!session) {
-  // redirect handled
-} else {
+const session = await initProtectedPage('profile')
+if (session) {
   const userId = session.user.id
   const profileForm = document.getElementById('profile-form')
   const avatarInput = document.getElementById('avatar-input')

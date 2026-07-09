@@ -135,7 +135,7 @@ export async function initNavbar(activePage = '') {
 
     try {
       await logout()
-      window.location.href = 'index.html'
+      window.location.replace('index.html')
     } catch (error) {
       console.error('Logout failed:', error)
       alert('Изходът не бе успешен. Опитайте отново.')

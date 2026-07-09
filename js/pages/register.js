@@ -6,11 +6,11 @@ import { showAlert, clearAlert, setButtonLoading } from '../utils/dom.js'
 import { validateUsername, validateEmail, validatePassword } from '../utils/validation.js'
 import { getErrorMessage } from '../utils/errors.js'
 
-await initNavbar('register')
-
-if (await redirectIfAuthenticated()) {
+if (await redirectIfAuthenticated('profile.html')) {
   // redirect handled
 } else {
+  await initNavbar('register')
+
   const form = document.getElementById('register-form')
   const alertBox = document.getElementById('form-alert')
   const submitBtn = document.getElementById('register-btn')
@@ -43,14 +43,23 @@ if (await redirectIfAuthenticated()) {
       const data = await register({ email, password, username })
 
       if (data.session) {
-        window.location.href = 'index.html'
+        if (data.profile) {
+          window.location.replace('profile.html')
+          return
+        }
+
+        showAlert(
+          alertBox,
+          'Регистрацията е успешна, но профилът се създава. Опитайте да влезете след малко.',
+          'warning'
+        )
         return
       }
 
       showAlert(
         alertBox,
         data.user
-          ? 'Регистрацията е успешна! Проверете имейла си за потвърждение или влезте.'
+          ? 'Регистрацията е успешна! Проверете имейла си за потвърждение, след което влезте.'
           : 'Регистрацията е успешна! Можете да влезете.',
         'success'
       )

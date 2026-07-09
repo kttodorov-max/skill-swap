@@ -1,21 +1,15 @@
 import '../app.js'
-import { initNavbar } from '../components/navbar.js'
 import {
   fetchIncomingRequests,
   fetchOutgoingRequests,
   updateSwapRequestStatus,
-  deleteSwapRequest,
 } from '../../services/swapService.js'
-import { requireAuth } from '../utils/guards.js'
+import { initProtectedPage } from '../utils/guards.js'
 import { escapeHtml, renderEmpty, renderLoading, showToast } from '../utils/dom.js'
 import { getErrorMessage } from '../utils/errors.js'
 
-await initNavbar('swapRequests')
-
-const session = await requireAuth()
-if (!session) {
-  // redirect handled
-} else {
+const session = await initProtectedPage('swapRequests')
+if (session) {
   const userId = session.user.id
   const incomingList = document.getElementById('incoming-list')
   const outgoingList = document.getElementById('outgoing-list')

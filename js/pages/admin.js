@@ -1,5 +1,4 @@
 import '../app.js'
-import { initNavbar } from '../components/navbar.js'
 import {
   fetchAllProfiles,
   fetchAllSkills,
@@ -10,16 +9,12 @@ import {
   deleteCategory,
   adminDeleteProfile,
 } from '../../services/adminService.js'
-import { requireAdmin } from '../utils/guards.js'
+import { initProtectedPage, requireAdmin } from '../utils/guards.js'
 import { escapeHtml, renderLoading, showToast } from '../utils/dom.js'
 import { getErrorMessage } from '../utils/errors.js'
 
-await initNavbar('admin')
-
-const session = await requireAdmin()
-if (!session) {
-  // redirect handled
-} else {
+const session = await initProtectedPage('admin', requireAdmin)
+if (session) {
   const usersBody = document.getElementById('admin-users-body')
   const skillsBody = document.getElementById('admin-skills-body')
   const categoriesBody = document.getElementById('admin-categories-body')

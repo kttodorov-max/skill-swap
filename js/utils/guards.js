@@ -1,11 +1,39 @@
 import { getSession, isAdmin } from '../../services/authService.js'
 
+const PUBLIC_PAGES = new Set([
+  'index.html',
+  'login.html',
+  'register.html',
+])
+
+const ALLOWED_REDIRECTS = new Set([
+  'index.html',
+  'profile.html',
+  'skill-form.html',
+  'swap-requests.html',
+  'admin.html',
+])
+
+export function getCurrentPage() {
+  const page = window.location.pathname.split('/').pop()
+  return page || 'index.html'
+}
+
+export function getSafeRedirectUrl(param, fallback = 'index.html') {
+  if (param && ALLOWED_REDIRECTS.has(param)) return param
+  return fallback
+}
+
+export function isProtectedPage(page = getCurrentPage()) {
+  return !PUBLIC_PAGES.has(page)
+}
+
 export async function requireAuth(redirectTo = 'login.html') {
   const session = await getSession()
 
   if (!session) {
-    const returnUrl = encodeURIComponent(window.location.pathname.split('/').pop())
-    window.location.href = `${redirectTo}?redirect=${returnUrl}`
+    const returnUrl = encodeURIComponent(getCurrentPage())
+    window.location.replace(`${redirectTo}?redirect=${returnUrl}`)
     return null
   }
 
@@ -20,7 +48,7 @@ export async function requireAdmin(redirectTo = 'index.html') {
   const admin = await isAdmin()
 
   if (!admin) {
-    window.location.href = redirectTo
+    window.location.replace(redirectTo)
     return null
   }
 
@@ -31,9 +59,20 @@ export async function redirectIfAuthenticated(redirectTo = 'index.html') {
   const session = await getSession()
 
   if (session) {
-    window.location.href = redirectTo
+    const params = new URLSearchParams(window.location.search)
+    const target = getSafeRedirectUrl(params.get('redirect'), redirectTo)
+    window.location.replace(target)
     return true
   }
 
   return false
+}
+
+export async function initProtectedPage(activePage, guardFn = requireAuth) {
+  const session = await guardFn()
+  if (!session) return null
+
+  const { initNavbar } = await import('../components/navbar.js')
+  await initNavbar(activePage)
+  return session
 }

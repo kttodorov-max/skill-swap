@@ -62,8 +62,29 @@ export async function getAuthContext() {
   }
 }
 
+export async function signOut() {
+  const { error } = await supabase.auth.signOut({ scope: 'global' })
+  if (error) throw error
+}
+
+export async function waitForProfile(userId, maxAttempts = 6) {
+  for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+    const profile = await getProfile(userId)
+    if (profile) return profile
+    await new Promise((resolve) => setTimeout(resolve, 400))
+  }
+  return null
+}
+
 export async function register({ email, password, username, fullName = '' }) {
-  return signUp({ email, password, username, fullName })
+  const data = await signUp({ email, password, username, fullName })
+
+  if (data.user && data.session) {
+    const profile = await waitForProfile(data.user.id)
+    return { ...data, profile }
+  }
+
+  return data
 }
 
 export async function signUp({ email, password, username, fullName = '' }) {
@@ -97,12 +118,7 @@ export async function signIn({ email, password }) {
 }
 
 export async function logout() {
-  return signOut()
-}
-
-export async function signOut() {
-  const { error } = await supabase.auth.signOut()
-  if (error) throw error
+  await signOut()
 }
 
 export async function getProfile(userId) {

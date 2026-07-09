@@ -1,5 +1,4 @@
 import '../app.js'
-import { initNavbar } from '../components/navbar.js'
 import {
   fetchCategories,
   fetchSkillById,
@@ -8,17 +7,13 @@ import {
   deleteSkill,
 } from '../../services/skillsService.js'
 import { uploadSkillImage } from '../../services/storageService.js'
-import { requireAuth } from '../utils/guards.js'
+import { initProtectedPage } from '../utils/guards.js'
 import { showAlert, clearAlert, setButtonLoading, showToast } from '../utils/dom.js'
 import { validateSkillTitle } from '../utils/validation.js'
 import { getErrorMessage } from '../utils/errors.js'
 
-await initNavbar('skillForm')
-
-const session = await requireAuth()
-if (!session) {
-  // redirect handled
-} else {
+const session = await initProtectedPage('skillForm')
+if (session) {
   const userId = session.user.id
   const params = new URLSearchParams(window.location.search)
   const skillId = params.get('id')
