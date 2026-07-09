@@ -1,4 +1,5 @@
 import { getAuthContext, logout } from '../../services/authService.js'
+import { countPendingIncoming } from '../../services/swapService.js'
 
 const PUBLIC_PAGES = [
   { id: 'main', href: 'index.html', label: 'Начало', icon: 'bi-house' },
@@ -17,11 +18,18 @@ const ADMIN_PAGE = {
   icon: 'bi-shield-lock',
 }
 
-function renderNavItem(page, activePage) {
+let currentActivePage = ''
+
+function renderNavItem(page, activePage, pendingSwapCount = 0) {
+  const badge =
+    page.id === 'swapRequests' && pendingSwapCount > 0
+      ? `<span class="badge rounded-pill bg-danger ms-1">${pendingSwapCount}</span>`
+      : ''
+
   return `
     <li class="nav-item">
       <a class="nav-link${activePage === page.id ? ' active' : ''}" href="${page.href}">
-        <i class="bi ${page.icon} me-1"></i>${page.label}
+        <i class="bi ${page.icon} me-1"></i>${page.label}${badge}
       </a>
     </li>
   `
@@ -79,7 +87,11 @@ function renderUserActions(auth, activePage) {
   `
 }
 
-export function renderNavbar(activePage = '', auth = { isAuthenticated: false, isAdmin: false }) {
+export function renderNavbar(
+  activePage = '',
+  auth = { isAuthenticated: false, isAdmin: false },
+  pendingSwapCount = 0
+) {
   const pages = [...PUBLIC_PAGES]
 
   if (auth.isAuthenticated) {
@@ -87,7 +99,7 @@ export function renderNavbar(activePage = '', auth = { isAuthenticated: false, i
     if (auth.isAdmin) pages.push(ADMIN_PAGE)
   }
 
-  const navLinks = pages.map((page) => renderNavItem(page, activePage)).join('')
+  const navLinks = pages.map((page) => renderNavItem(page, activePage, pendingSwapCount)).join('')
   const authActions = auth.isAuthenticated
     ? renderUserActions(auth, activePage)
     : renderGuestActions(activePage)
@@ -122,12 +134,25 @@ export function renderNavbar(activePage = '', auth = { isAuthenticated: false, i
   `
 }
 
+async function getPendingSwapCount(auth) {
+  if (!auth?.isAuthenticated || !auth.user?.id) return 0
+
+  try {
+    return await countPendingIncoming(auth.user.id)
+  } catch {
+    return 0
+  }
+}
+
 export async function initNavbar(activePage = '') {
   const container = document.getElementById('navbar')
   if (!container) return null
 
+  currentActivePage = activePage
   const auth = await getAuthContext()
-  container.innerHTML = renderNavbar(activePage, auth)
+  const pendingSwapCount = await getPendingSwapCount(auth)
+
+  container.innerHTML = renderNavbar(activePage, auth, pendingSwapCount)
 
   const logoutButton = container.querySelector('[data-logout]')
   logoutButton?.addEventListener('click', async (event) => {
@@ -142,5 +167,9 @@ export async function initNavbar(activePage = '') {
     }
   })
 
-  return auth
+  return { ...auth, pendingSwapCount }
+}
+
+export async function refreshNavbar() {
+  return initNavbar(currentActivePage)
 }

@@ -4,6 +4,8 @@ const IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
 const MAX_FILE_SIZE = 5 * 1024 * 1024
 export const MAX_AVATAR_SIZE = 2 * 1024 * 1024
 export const MAX_AVATAR_SIZE_MB = 2
+export const MAX_SKILL_IMAGE_SIZE = 5 * 1024 * 1024
+export const MAX_SKILL_IMAGE_SIZE_MB = 5
 
 function validateImageFile(file, maxSize = MAX_FILE_SIZE) {
   if (!file) throw new Error('Не е избран файл.')
@@ -55,7 +57,7 @@ export async function uploadAvatar(userId, file) {
 }
 
 export async function uploadSkillImage(userId, file, skillId = null) {
-  validateImageFile(file)
+  validateImageFile(file, MAX_SKILL_IMAGE_SIZE)
 
   const extension = getFileExtension(file)
   const fileName = skillId ? `${skillId}.${extension}` : `${Date.now()}.${extension}`

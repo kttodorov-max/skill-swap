@@ -6,7 +6,7 @@ import {
   updateSkill,
   deleteSkill,
 } from '../../services/skillsService.js'
-import { uploadSkillImage } from '../../services/storageService.js'
+import { uploadSkillImage, MAX_SKILL_IMAGE_SIZE, MAX_SKILL_IMAGE_SIZE_MB } from '../../services/storageService.js'
 import { initProtectedPage } from '../utils/guards.js'
 import { showAlert, clearAlert, setButtonLoading, showToast } from '../utils/dom.js'
 import { validateSkillTitle } from '../utils/validation.js'
@@ -68,9 +68,22 @@ if (session) {
 
   document.getElementById('image').addEventListener('change', (event) => {
     pendingImageFile = event.target.files?.[0] || null
-    if (pendingImageFile) {
-      imagePreview.innerHTML = `<img src="${URL.createObjectURL(pendingImageFile)}" class="img-fluid rounded" style="max-height:200px" alt="">`
+
+    if (!pendingImageFile) {
+      imagePreview.innerHTML = existingSkill?.image_url
+        ? `<img src="${existingSkill.image_url}" class="img-fluid rounded" style="max-height:200px" alt="">`
+        : ''
+      return
     }
+
+    if (pendingImageFile.size > MAX_SKILL_IMAGE_SIZE) {
+      showToast(`Снимката трябва да е до ${MAX_SKILL_IMAGE_SIZE_MB} MB.`, 'warning')
+      event.target.value = ''
+      pendingImageFile = null
+      return
+    }
+
+    imagePreview.innerHTML = `<img src="${URL.createObjectURL(pendingImageFile)}" class="img-fluid rounded" style="max-height:200px" alt="">`
   })
 
   form.addEventListener('submit', async (event) => {

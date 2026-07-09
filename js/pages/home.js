@@ -1,6 +1,6 @@
 import '../app.js'
 import { Modal } from 'bootstrap'
-import { initNavbar } from '../components/navbar.js'
+import { initNavbar, refreshNavbar } from '../components/navbar.js'
 import { renderSkillCard } from '../components/skillCard.js'
 import { fetchCategories, fetchSkills, fetchUserSkills } from '../../services/skillsService.js'
 import { createSwapRequest } from '../../services/swapService.js'
@@ -144,6 +144,7 @@ swapForm.addEventListener('submit', async (event) => {
     swapModal.hide()
     swapForm.reset()
     showToast('Заявката за обмен е изпратена!', 'success')
+    await refreshNavbar()
   } catch (error) {
     showToast(getErrorMessage(error), 'danger')
   } finally {

@@ -68,3 +68,14 @@ export async function deleteSwapRequest(requestId) {
   const { error } = await supabase.from('swap_requests').delete().eq('id', requestId)
   if (error) throw error
 }
+
+export async function countPendingIncoming(userId) {
+  const { count, error } = await supabase
+    .from('swap_requests')
+    .select('*', { count: 'exact', head: true })
+    .eq('recipient_id', userId)
+    .eq('status', 'pending')
+
+  if (error) throw error
+  return count || 0
+}

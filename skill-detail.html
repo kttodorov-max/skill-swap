@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="bg">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Детайли за умение – SkillSwap</title>
+  </head>
+  <body>
+    <div id="navbar"></div>
+    <main class="container py-5">
+      <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Начало</a></li>
+          <li class="breadcrumb-item active" aria-current="page" id="breadcrumb-title">Умение</li>
+        </ol>
+      </nav>
+
+      <div id="skill-detail-content">
+        <div class="text-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Зареждане...</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="modal fade" id="swapModal" tabindex="-1" aria-labelledby="swapModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title h5" id="swapModalLabel">
+              <i class="bi bi-arrow-left-right me-1"></i>Предложи обмен
+            </h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Затвори"></button>
+          </div>
+          <form id="swap-form">
+            <div class="modal-body">
+              <p class="text-muted small" id="swap-target-info"></p>
+              <div class="mb-3">
+                <label for="offered-skill" class="form-label">Моето умение (предлагам)</label>
+                <select class="form-select" id="offered-skill" required></select>
+              </div>
+              <div class="mb-3">
+                <label for="swap-message" class="form-label">Съобщение (по желание)</label>
+                <textarea class="form-control" id="swap-message" rows="3" placeholder="Кратко съобщение..."></textarea>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отказ</button>
+              <button type="submit" class="btn btn-primary" id="swap-submit-btn">
+                <i class="bi bi-send me-1"></i>Изпрати заявка
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/js/pages/skill-detail.js"></script>
+  </body>
+</html>

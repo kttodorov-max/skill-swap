@@ -10,6 +10,7 @@ export default defineConfig({
         register: resolve(__dirname, 'register.html'),
         profile: resolve(__dirname, 'profile.html'),
         skillForm: resolve(__dirname, 'skill-form.html'),
+        skillDetail: resolve(__dirname, 'skill-detail.html'),
         swapRequests: resolve(__dirname, 'swap-requests.html'),
         admin: resolve(__dirname, 'admin.html'),
       },

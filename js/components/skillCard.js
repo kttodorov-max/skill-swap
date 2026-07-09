@@ -50,7 +50,11 @@ export function renderSkillCard(skill, options = {}) {
             </span>
             ${category ? `<small class="text-muted">${escapeHtml(category.name)}</small>` : ''}
           </div>
-          <h3 class="h5 card-title">${escapeHtml(skill.title)}</h3>
+          <h3 class="h5 card-title">
+            <a href="skill-detail.html?id=${skill.id}" class="text-decoration-none text-dark">
+              ${escapeHtml(skill.title)}
+            </a>
+          </h3>
           <p class="card-text text-muted small flex-grow-1">
             ${escapeHtml(skill.description || 'Без описание.')}
           </p>

@@ -4,12 +4,14 @@ const PUBLIC_PAGES = new Set([
   'index.html',
   'login.html',
   'register.html',
+  'skill-detail.html',
 ])
 
 const ALLOWED_REDIRECTS = new Set([
   'index.html',
   'profile.html',
   'skill-form.html',
+  'skill-detail.html',
   'swap-requests.html',
   'admin.html',
 ])
@@ -20,7 +22,10 @@ export function getCurrentPage() {
 }
 
 export function getSafeRedirectUrl(param, fallback = 'index.html') {
-  if (param && ALLOWED_REDIRECTS.has(param)) return param
+  if (!param) return fallback
+
+  const page = param.split('?')[0]
+  if (ALLOWED_REDIRECTS.has(page)) return param
   return fallback
 }
 

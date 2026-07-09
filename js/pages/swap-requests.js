@@ -5,6 +5,7 @@ import {
   updateSwapRequestStatus,
 } from '../../services/swapService.js'
 import { initProtectedPage } from '../utils/guards.js'
+import { refreshNavbar } from '../components/navbar.js'
 import { escapeHtml, renderEmpty, renderLoading, showToast } from '../utils/dom.js'
 import { getErrorMessage } from '../utils/errors.js'
 
@@ -109,6 +110,7 @@ if (session) {
       }
       showToast('Заявката е обновена.', 'success')
       await loadRequests()
+      await refreshNavbar()
     } catch (error) {
       showToast(getErrorMessage(error), 'danger')
     }
