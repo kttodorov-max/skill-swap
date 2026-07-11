@@ -46,7 +46,32 @@ if (session) {
           </button>
         `
       }
+    } else if (request.status === 'accepted') {
+      actions = `
+        <button class="btn btn-sm btn-outline-primary" data-action="complete" data-id="${request.id}">
+          <i class="bi bi-check-circle"></i> Mark complete
+        </button>
+      `
     }
+
+    const showContact = request.status === 'accepted' || request.status === 'completed'
+    const contactHtml = showContact
+      ? otherUser?.contact_info
+        ? `
+          <div class="alert alert-success py-2 px-3 small mb-0 mt-3">
+            <i class="bi bi-person-lines-fill me-1"></i>
+            <strong>Contact ${escapeHtml(otherUser.username)}:</strong>
+            ${escapeHtml(otherUser.contact_info)}
+          </div>
+        `
+        : `
+          <div class="alert alert-warning py-2 px-3 small mb-0 mt-3">
+            <i class="bi bi-exclamation-triangle me-1"></i>
+            ${escapeHtml(otherUser?.username || 'User')} has not added contact info yet.
+            Ask them to update their profile.
+          </div>
+        `
+      : ''
 
     return `
       <div class="card shadow-sm mb-3">
@@ -70,7 +95,8 @@ if (session) {
             <i class="bi bi-arrow-left text-muted"></i>
             Wants: <strong>${escapeHtml(request.requested_skill?.title || '—')}</strong>
           </p>
-          ${request.message ? `<p class="text-muted small mb-0 mt-2 fst-italic">„${escapeHtml(request.message)}"</p>` : ''}
+          ${request.message ? `<p class="text-muted small mb-0 mt-2 fst-italic">"${escapeHtml(request.message)}"</p>` : ''}
+          ${contactHtml}
         </div>
       </div>
     `
@@ -97,6 +123,7 @@ if (session) {
       accept: 'accepted',
       reject: 'rejected',
       cancel: 'cancelled',
+      complete: 'completed',
     }
 
     const status = statusMap[action]
@@ -108,7 +135,12 @@ if (session) {
       } else {
         await updateSwapRequestStatus(requestId, status)
       }
-      showToast('Request updated.', 'success')
+      showToast(
+        action === 'accept'
+          ? 'Request accepted. Contact details are now visible to both parties.'
+          : 'Request updated.',
+        'success'
+      )
       await loadRequests()
       await refreshNavbar()
     } catch (error) {

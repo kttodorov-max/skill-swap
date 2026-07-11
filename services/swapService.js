@@ -2,8 +2,8 @@ import { supabase } from './supabaseClient.js'
 
 const SWAP_SELECT = `
   *,
-  requester:profiles!swap_requests_requester_id_fkey (id, username, full_name, avatar_url),
-  recipient:profiles!swap_requests_recipient_id_fkey (id, username, full_name, avatar_url),
+  requester:profiles!swap_requests_requester_id_fkey (id, username, full_name, avatar_url, contact_info),
+  recipient:profiles!swap_requests_recipient_id_fkey (id, username, full_name, avatar_url, contact_info),
   offered_skill:skills!swap_requests_offered_skill_id_fkey (id, title, type),
   requested_skill:skills!swap_requests_requested_skill_id_fkey (id, title, type)
 `

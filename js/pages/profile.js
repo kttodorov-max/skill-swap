@@ -32,6 +32,7 @@ if (session) {
     document.getElementById('full-name').value = currentProfile.full_name || ''
     document.getElementById('location').value = currentProfile.location || ''
     document.getElementById('bio').value = currentProfile.bio || ''
+    document.getElementById('contact-info').value = currentProfile.contact_info || ''
     renderAvatar(currentProfile.avatar_url)
   }
 
@@ -104,6 +105,7 @@ if (session) {
         full_name: document.getElementById('full-name').value.trim(),
         location: document.getElementById('location').value.trim(),
         bio: document.getElementById('bio').value.trim(),
+        contact_info: document.getElementById('contact-info').value.trim() || null,
       })
       showToast('Profile saved.', 'success')
     } catch (error) {
