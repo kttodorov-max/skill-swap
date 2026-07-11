@@ -10,11 +10,12 @@ A skill exchange platform where users publish what they can teach and what they 
 ## Features
 
 - Email/password registration and login (Supabase Auth)
-- Profile with avatar, bio, and location
+- Profile with avatar, bio, location, and contact info
 - Skill CRUD (type *I Teach* / *I Want to Learn*) with categories and images
 - Skill browsing with filters and search
 - Skill detail page and swap proposals
-- Swap request management (incoming / outgoing) – pending → accepted / rejected
+- Swap request management (incoming / outgoing) – pending → accepted / rejected / completed
+- Contact details revealed to both parties after a swap is accepted
 - Notification badge for new requests (Bootstrap badge in navbar)
 - Admin panel with role-based access (users, skills, categories)
 - File uploads to Supabase Storage (`avatars`, `skill-images`)
@@ -64,9 +65,9 @@ The application is a **multi-page** app (MPA) – each screen is a separate HTML
 | `index.html` | Home – skill list, filters, swap modal |
 | `skill-detail.html` | Skill details + propose swap |
 | `login.html` / `register.html` | Login and registration |
-| `profile.html` | Profile, avatar, my skills |
+| `profile.html` | Profile, avatar, contact info, my skills |
 | `skill-form.html` | Create / edit skill |
-| `swap-requests.html` | Incoming and outgoing swap requests |
+| `swap-requests.html` | Incoming/outgoing swap requests, contact reveal, mark complete |
 | `admin.html` | Admin panel (role `admin` only) |
 
 ---
@@ -97,6 +98,7 @@ erDiagram
         text bio
         text location
         text avatar_url
+        text contact_info
         timestamptz created_at
         timestamptz updated_at
     }
@@ -143,6 +145,15 @@ erDiagram
 **Enum types:** `app_role` (user, admin) · `skill_type` (teach, learn) · `swap_request_status` (pending, accepted, rejected, cancelled, completed)
 
 **Storage buckets:** `avatars` (profile pictures, up to 2 MB) · `skill-images` (skill images, up to 5 MB)
+
+### Swap flow
+
+1. User proposes a swap from a skill card or skill detail page
+2. Recipient accepts or rejects the request
+3. On **accepted**, both users see each other's **contact info** on the Requests page
+4. Either party can **mark complete** when the exchange is done
+
+Users add contact details (email, phone, Telegram, Zoom, etc.) in **Profile → Contact info**.
 
 ---
 
@@ -216,11 +227,23 @@ npm run dev            # http://localhost:5173
 | Role | Email | Password |
 |------|-------|----------|
 | Admin | `demo@skillswap.bg` | `demo123` |
+| User | `alice@skillswap.bg` | `user123` |
+| User | `bob@skillswap.bg` | `user123` |
+| User | `carol@skillswap.bg` | `user123` |
+| User | `dave@skillswap.bg` | `user123` |
+| User | `eve@skillswap.bg` | `user123` |
 
-> Seed: `supabase/migrations/20260709190000_seed_demo_admin.sql` (run in Supabase SQL Editor)
+### Seed migrations (run in Supabase SQL Editor)
+
+| Migration | Purpose |
+|-----------|---------|
+| `20260709190000_seed_demo_admin.sql` | Demo admin account |
+| `20260711130000_seed_demo_users.sql` | 5 demo users (no avatars) |
+| `20260711131500_seed_demo_skills.sql` | 2 skills per demo user (no images) |
+| `20260711140000_add_profile_contact_info.sql` | `contact_info` column on profiles |
 
 ---
 
 ## License
 
-Educational project
+Учебен проект
